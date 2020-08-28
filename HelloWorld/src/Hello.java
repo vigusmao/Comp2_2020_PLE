@@ -2,25 +2,22 @@ import java.util.Scanner;
 
 public class Hello {
 
-    // atributos
-
-
-
-    // métodos
-
-
-
     public static void main(String[] args) {
 
-        Scanner scanner = new Scanner(System.in);
+        Scanner meuScanner = new Scanner(System.in);
 
         System.out.println("Digite seu nome, por favor: ");
-        String nome = scanner.nextLine();
+        String nome = meuScanner.nextLine();
 
         System.out.println("Oi, " + nome + "!");
 
         int numero;
-        numero = scanner.nextInt();
-        System.out.println("Obrigado pelo numero " + numero);
+        numero = meuScanner.nextInt();
+
+        String stringFormatada = String.format("Obrigado pelo numero %d, %s!", numero, nome);
+        System.out.println(stringFormatada);
+        // equivalentemente...
+        // System.out.printf("Obrigado pelo numero %d, %s!\n", numero, nome);
+
     }
 }

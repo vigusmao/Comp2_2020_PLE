@@ -9,18 +9,28 @@ public class Aluno {
     private float cra;               // cra = Somatorio_d [media(d) * creditos(d) /
     //       creditosAcumulados
 
+    private int quantDisciplinasCursadas;
     private String[] disciplinasCursadas;
 
     // construtor
     public Aluno(long dre, String nome) {
         this.dre = dre;
         this.nome = nome;
+        this.disciplinasCursadas = new String[16];
     }
 
     // métodos
 
     void imprimirHistorico() {
 
+    }
+
+    public String[] getDisciplinasCursadas() {
+        return disciplinasCursadas;
+    }
+
+    public int getQuantDisciplinasCursadas() {
+        return quantDisciplinasCursadas;
     }
 
     public String getNome() {
@@ -70,8 +80,8 @@ public class Aluno {
                                              int quantCreditos,
                                              float mediaFinal) {
 
-        // ToDo: incluir disciplina no histórico
-
+        this.disciplinasCursadas[this.quantDisciplinasCursadas] = codigoDisciplina;
+        this.quantDisciplinasCursadas++;  // incrementa a quant já cursada
 
         // recupero o numerador corrente (antes da nova disciplina)
         float numeradorCorrenteCra = this.cra * this.creditosAcumulados;
@@ -80,7 +90,7 @@ public class Aluno {
 
         // atualizar o CRA do aluno
         float novaParcela = quantCreditos * mediaFinal;
-        cra = (numeradorCorrenteCra + novaParcela) / this.creditosAcumulados;
+        this.cra = (numeradorCorrenteCra + novaParcela) / this.creditosAcumulados;
     }
 
 
