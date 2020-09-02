@@ -1,21 +1,16 @@
 public class Principal {
 
     public static void main(String[] args) {
-        System.out.println("Bem-vindo ao Banco Teste!");
 
-        long x = 567;
-        System.out.println("x = " + x);
 
-        int y = (int) x;
-        System.out.println("y = " + y);
+        Banco banco = new Banco();
+        Agencia agencia = new Agencia();
+        Correntista correntista = new Correntista();
 
-        x = Integer.MAX_VALUE;
-        System.out.println("x = " + x);
-
-        x *= 100;
-        System.out.println("x = " + x);
-
-        y = (int) x;
-        System.out.println("y = " + y);
+        Conta conta = banco.criarConta(agencia, correntista);
+        System.out.println(conta.getSaldo());
+        conta.receberDepositoEmDinheiro(200);
+        System.out.println(conta.getSaldo());
+        System.out.println(conta.getHistoricoOperacoes()[0]);
     }
 }

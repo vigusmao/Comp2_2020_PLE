@@ -14,6 +14,13 @@ public class Banco {
     private Gerente[] gerentes;
     private int quantGerentes;
 
+    public Banco() {
+        this.contas = new Conta[10];
+        this.correntistas = new Correntista[10];
+        this.agencias = new Agencia[10];
+        this.gerentes = new Gerente[10];
+    }
+
     public void cadastrarCorrentista() {
 
     }
