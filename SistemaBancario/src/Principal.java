@@ -2,7 +2,6 @@ public class Principal {
 
     public static void main(String[] args) {
 
-
         Banco banco = new Banco();
         Agencia agencia = new Agencia();
         Correntista correntista = new Correntista();

@@ -1,5 +1,8 @@
 public class Conta {
 
+    // O quão negativas as contas podem ficar.
+    public final static int LIMITE = 100;
+
     // O identificador único da conta.
     private final long numero;
 
@@ -65,6 +68,14 @@ public class Conta {
         this.saldo += valor;
         String novoItem = String.format("Depósito em dinheiro: R$%.2f", valor);
         this.historicoOperacoes[this.quantItensHistorico++] = novoItem;
+    }
+
+    public void sacar(float valor) {
+        // ToDo IMPLEMENT ME!!!
+    }
+
+    public void efetuarTransferencia(Conta contaDestino, float valor) {
+        // ToDo IMPLEMENT ME!!!
     }
 }
 

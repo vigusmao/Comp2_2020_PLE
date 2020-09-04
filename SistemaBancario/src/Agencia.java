@@ -6,4 +6,8 @@ public class Agencia {
     public Gerente getGerenteGeral() {
         return gerenteGeral;
     }
+
+    public void setGerenteGeral(Gerente gerente) {
+        this.gerenteGeral = gerente;
+    }
 }

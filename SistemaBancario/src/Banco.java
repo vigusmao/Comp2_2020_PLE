@@ -39,5 +39,19 @@ public class Banco {
         return Math.abs((int) numero) % 10;  // retorna o valor absoluto do inteiro
     }
 
+    public Gerente adicionarGerente(String nome) {
+        return null;  // ToDo IMPLEMENT ME!!!
+    }
 
+    public Correntista adicionarCorrentista(String nome, int senhaNumerica) {
+        return null;  // ToDo IMPLEMENT ME!!!
+    }
+
+    public Agencia adicionarAgencia(int codigo, String nome) {
+        return null;  // ToDo IMPLEMENT ME!!!
+    }
+
+    public int getQuantAgencias() {
+        return 0;  // ToDo IMPLEMENT ME!!!
+    }
 }
