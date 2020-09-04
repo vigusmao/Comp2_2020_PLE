@@ -1,3 +1,5 @@
+package main;
+
 public class Conta {
 
     // O quão negativas as contas podem ficar.
@@ -65,17 +67,31 @@ public class Conta {
     }
 
     public void receberDepositoEmDinheiro(float valor) {
-        this.saldo += valor;
-        String novoItem = String.format("Depósito em dinheiro: R$%.2f", valor);
+        depositar(valor, "em dinheiro");
+    }
+
+    public void sacar(float valor, int senha) {
+        if (this.saldo - valor < -LIMITE) {  // saldo insuficiente
+            return;  // ToDo lançar exceção
+        }
+        this.saldo -= valor;
+        String novoItem = String.format("Saque: R$%.2f", valor);
         this.historicoOperacoes[this.quantItensHistorico++] = novoItem;
     }
 
-    public void sacar(float valor) {
-        // ToDo IMPLEMENT ME!!!
+    public void efetuarTransferencia(Conta contaDestino, float valor) {
+        this.saldo -= valor;
+        contaDestino.depositar(valor, this.getCorrentista().getNome());
+        String novoItem = String.format(
+                "Transferência efetuada para a conta %d: R$%.2f",
+                contaDestino.getNumero(), valor);
+        this.historicoOperacoes[this.quantItensHistorico++] = novoItem;
     }
 
-    public void efetuarTransferencia(Conta contaDestino, float valor) {
-        // ToDo IMPLEMENT ME!!!
+    public void depositar(float valor, String descricaoOrigem) {
+        this.saldo += valor;
+        String novoItem = String.format("Depósito %s: R$%.2f", descricaoOrigem, valor);
+        this.historicoOperacoes[this.quantItensHistorico++] = novoItem;
     }
 }
 

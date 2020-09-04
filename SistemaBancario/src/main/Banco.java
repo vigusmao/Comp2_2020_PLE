@@ -1,3 +1,5 @@
+package main;
+
 public class Banco {
 
     private String nome;
@@ -40,18 +42,25 @@ public class Banco {
     }
 
     public Gerente adicionarGerente(String nome) {
-        return null;  // ToDo IMPLEMENT ME!!!
+        Gerente novoGerente = new Gerente(nome);
+        this.gerentes[this.quantGerentes++] = novoGerente;
+        return novoGerente;
     }
 
     public Correntista adicionarCorrentista(String nome, int senhaNumerica) {
-        return null;  // ToDo IMPLEMENT ME!!!
+        Correntista novoCorrentista = new Correntista(nome, senhaNumerica);
+        this.correntistas[this.quantCorrentistas++] = novoCorrentista;
+        return novoCorrentista;
     }
 
     public Agencia adicionarAgencia(int codigo, String nome) {
-        return null;  // ToDo IMPLEMENT ME!!!
+        Agencia novaAgencia = new Agencia();
+        this.agencias[this.quantAgencias++] = novaAgencia;
+        return novaAgencia;
+
     }
 
     public int getQuantAgencias() {
-        return 0;  // ToDo IMPLEMENT ME!!!
+        return quantAgencias;
     }
 }
