@@ -1,5 +1,3 @@
-package main;
-
 public class Agencia {
 
     // O gerente geral desta agência.

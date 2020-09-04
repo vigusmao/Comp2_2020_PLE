@@ -1,5 +1,3 @@
-package main;
-
 public class Conta {
 
     // O quão negativas as contas podem ficar.
