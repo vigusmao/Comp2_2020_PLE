@@ -105,4 +105,23 @@ public class BancoTest {
         assertEquals("Não deve ser possível sacar se não houver fundos suficientes (considerando o limite)",
                 0, conta1.getSaldo(), FLOAT_DELTA);
     }
+
+    @Test
+    public void testarObterConta() {
+        Conta contaDoJoao = banco.obterConta(conta1.getNumero());
+        assertEquals("O banco deve retornar corretamente uma conta baseado em seu número",
+                conta1, contaDoJoao);
+
+        Conta contaDaMaria = banco.obterConta(maria);
+        assertEquals("O banco deve retornar corretamente uma conta baseado no dono da conta",
+                conta2, contaDaMaria);
+    }
+
+    @Test
+    public void testarCriacaoDeMuitasContas() {
+        for (int i = 0; i < 1000; i++) {
+            banco.criarConta(agencia, maria);
+        }
+        assertEquals(1002, banco.getQuantContas());  // já havia 2 contas (criadas no setUp)
+    }
 }
