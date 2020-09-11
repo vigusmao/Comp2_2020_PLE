@@ -16,16 +16,30 @@ public class Fracao {
      * @return um double com o valor numérico desta fração
      */
     public double getValorNumerico() {
-        return 0;
+        return 0;  // ToDo IMPLEMENT ME!!!
     }
 
     /**
      * Retorna uma fração que é equivalente a esta fração (this),
-     * e que é irredutível (numerador e denominador primos entre si)
+     * e que é irredutível (numerador e denominador primos entre si).
+     * Em outras palavras, retorna a fração geratriz desta fração.
      *
-     * @return uma fração irredutível equivalente a esta
+     * @return uma fração irredutível equivalente a esta;
+     *         no caso desta fração JÁ SER ela própria irredutível, retorna this
      */
-    public Fracao getFracaoIrredutivel() {
-        return null;
+    public Fracao getFracaoGeratriz() {
+        return null;  // ToDo IMPLEMENT ME!!!
+    }
+
+    public int getNumerador() {
+        return 0;  // ToDo IMPLEMENT ME!!!
+    }
+
+    public int getDenominador() {
+        return 0;  // ToDo IMPLEMENT ME!!!
+    }
+
+    public boolean isPositiva() {
+        return false;  // ToDo IMPLEMENT ME!!!
     }
 }
