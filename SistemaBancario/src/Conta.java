@@ -1,3 +1,5 @@
+import java.util.Objects;
+
 public class Conta {
 
     // O quão negativas as contas podem ficar.
@@ -90,6 +92,22 @@ public class Conta {
         this.saldo += valor;
         String novoItem = String.format("Depósito %s: R$%.2f", descricaoOrigem, valor);
         this.historicoOperacoes[this.quantItensHistorico++] = novoItem;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || this.getClass() != o.getClass()) return false;
+        Conta outraConta = (Conta) o;
+        return this.numero == outraConta.numero &&
+                Objects.equals(this.agencia, outraConta.getAgencia());  // aqui ele já cuida dos nulls pra gente
+
+    }
+
+    @Override
+    public int hashCode() {
+
+        return Objects.hash(numero, agencia);
     }
 }
 
