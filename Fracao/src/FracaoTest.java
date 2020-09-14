@@ -70,4 +70,34 @@ public class FracaoTest {
 
         assertFalse("Frações nulas não são positivas!!!", x.isPositiva());
     }
+
+    @Test
+    public void testarToStringParaFracaoPositiva() {
+        Fracao fracao = new Fracao(1, 3, true);
+        assertEquals("1" + Fracao.SEPARADOR + "3", fracao.toString());
+    }
+
+    @Test
+    public void testarToStringParaFracaoNegativa() {
+        Fracao fracao = new Fracao(2, 6, false);
+        assertEquals("-2" + Fracao.SEPARADOR + "6", fracao.toString());
+    }
+
+    @Test
+    public void testarToStringParaFracaoAparente() {
+        Fracao fracao = new Fracao(10, 2, true);
+        assertEquals("10" + Fracao.SEPARADOR + "2", fracao.toString());
+    }
+
+    @Test
+    public void testarToStringParaFracaoComDenominadorUm() {
+        Fracao fracao = new Fracao(10, 1, true);
+        assertEquals("10", fracao.toString());
+    }
+
+    @Test
+    public void testarToStringParaFracaoNula() {
+        Fracao fracao = new Fracao(0, 3, true);
+        assertEquals("0", fracao.toString());
+    }
 }
