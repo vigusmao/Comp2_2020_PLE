@@ -2,16 +2,16 @@ public class Banco {
 
     private String nome;
 
-    private Lista contas;        // inconveniente temporário: lista de Object (!!!)
-    private Lista correntistas;  // inconveniente temporário: lista de Object (!!!)
-    private Lista agencias;      // inconveniente temporário: lista de Object (!!!)
-    private Lista gerentes;      // inconveniente temporário: lista de Object (!!!)
+    private Lista<Conta> contas;
+    private Lista<Correntista> correntistas;  // inconveniente temporário: lista de Object (!!!)
+    private Lista<Agencia> agencias;      // inconveniente temporário: lista de Object (!!!)
+    private Lista<Gerente> gerentes;      // inconveniente temporário: lista de Object (!!!)
 
     public Banco() {
-        this.contas = new Lista();
-        this.correntistas = new Lista();
-        this.agencias = new Lista();
-        this.gerentes = new Lista();
+        this.contas = new Lista<>();
+        this.correntistas = new Lista<>();
+        this.agencias = new Lista<>();
+        this.gerentes = new Lista<>();
     }
 
     public void cadastrarCorrentista() {
@@ -67,7 +67,7 @@ public class Banco {
      */
     public Conta obterConta(long numeroDaContaDesejada) {
         for (int i = 0; i < getQuantContas(); i++) {
-            Conta conta = (Conta) this.contas.obterItem(i);
+            Conta conta = this.contas.obterItem(i);
             if (conta.getNumero() == numeroDaContaDesejada) {
                 return conta;  // encontrei a conta desejada!!!
             }
@@ -85,7 +85,7 @@ public class Banco {
      */
     public Conta obterConta(Correntista correntista) {
         for (int i = 0; i < getQuantContas(); i++) {
-            Conta conta = (Conta) this.contas.obterItem(i);
+            Conta conta = this.contas.obterItem(i);
             if (conta.getCorrentista() == correntista) {
                 return conta;  // encontrei a conta desejada!!!
             }
