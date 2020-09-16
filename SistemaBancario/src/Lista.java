@@ -1,10 +1,10 @@
-public class Lista {
+public class Lista<T> {
 
     private Object[] itens;
     private int quantItens;
 
     public Lista() {
-        itens = new Object[4];
+        itens = new Object[4];  // não é possível fazer new T[4]
         quantItens = 0;
     }
 
@@ -13,7 +13,7 @@ public class Lista {
      *
      * @param item O novo item.
      */
-    public void adicionarItem(Object item) {
+    public void adicionarItem(T item) {
         if (this.quantItens == this.itens.length) {
             // array "cheio", preciso criar novo array
             redimensionarArray();
@@ -34,11 +34,11 @@ public class Lista {
      * @param posicao a posição desejada
      * @return o item desejado, caso exista; null, se a posição informada não existir na lista
      */
-    public Object obterItem(int posicao) {
+    public T obterItem(int posicao) {
         if (posicao >= this.quantItens || posicao < 0) {
             return null;  // como combinado
         }
-        return this.itens[posicao];
+        return (T) this.itens[posicao];
     }
 
     private void redimensionarArray() {

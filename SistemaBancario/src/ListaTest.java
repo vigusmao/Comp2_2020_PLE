@@ -21,4 +21,13 @@ public class ListaTest {
         assertEquals("22222", minhaLista.obterItem(1));
         assertEquals(correntista, minhaLista.obterItem(5));
     }
+
+    @Test void testarOperacoesBasicasParaListaDeTipoEspecifico() {
+        Lista<String> minhaListaDeStrings = new Lista<>();
+        minhaListaDeStrings.adicionarItem("345sdkjfhck");
+        minhaListaDeStrings.adicionarItem("345sdkjfhcdsfsdk");
+//        minhaListaDeStrings.adicionarItem(new Correntista("Vinicius", 1234));  isso nem compila!
+        assertEquals(2, minhaListaDeStrings.getTamanho());
+        assertEquals("345sdkjfhcdsfsdk", minhaListaDeStrings.obterItem(1));
+    }
 }

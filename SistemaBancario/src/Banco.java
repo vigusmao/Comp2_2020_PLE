@@ -3,9 +3,9 @@ public class Banco {
     private String nome;
 
     private Lista<Conta> contas;
-    private Lista<Correntista> correntistas;  // inconveniente temporário: lista de Object (!!!)
-    private Lista<Agencia> agencias;      // inconveniente temporário: lista de Object (!!!)
-    private Lista<Gerente> gerentes;      // inconveniente temporário: lista de Object (!!!)
+    private Lista<Correntista> correntistas;
+    private Lista<Agencia> agencias;
+    private Lista<Gerente> gerentes;
 
     public Banco() {
         this.contas = new Lista<>();
