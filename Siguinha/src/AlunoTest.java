@@ -2,6 +2,8 @@ import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 
+import java.util.ArrayList;
+
 import static org.junit.Assert.*;
 
 public class AlunoTest {
@@ -38,10 +40,10 @@ public class AlunoTest {
 
     @Test
     public void getConclusaoDiscipinaTest() {
-        ItemDeHistorico[] resultadoObtido = aluno.getDisciplinasCursadas();
+        ArrayList<ItemDeHistorico> resultadoObtido = aluno.getDisciplinasCursadas();
         assertNotNull(resultadoObtido);
-        for (int i = 0; i < resultadoObtido.length; i++) {
-            assertNull(resultadoObtido[i]);
+        for (int i = 0; i < resultadoObtido.size(); i++) {
+            assertNull(resultadoObtido.get(i));
         }
         assertEquals(0, aluno.getQuantDisciplinasCursadas());
 
@@ -49,7 +51,7 @@ public class AlunoTest {
         aluno.registrarConclusaoDisciplina(disciplina1, 6.5f, 2019, 2);
 
         resultadoObtido = aluno.getDisciplinasCursadas();
-        ItemDeHistorico primeiroItem = resultadoObtido[0];
+        ItemDeHistorico primeiroItem = resultadoObtido.get(0);
         assertEquals("MAB001", primeiroItem.getDisciplina().getCodigo());
         assertEquals(2019, primeiroItem.getAno());
         assertEquals(2, primeiroItem.getSemestre());
@@ -59,7 +61,7 @@ public class AlunoTest {
         // verificar todas as disciplinas do histórico até aqui
         resultadoObtido = aluno.getDisciplinasCursadas();
         assertEquals("MAB001", primeiroItem.getDisciplina().getCodigo());
-        ItemDeHistorico segundoItem = resultadoObtido[1];
+        ItemDeHistorico segundoItem = resultadoObtido.get(1);
         assertEquals("MAB002", segundoItem.getDisciplina().getCodigo());
         verificarAtualizacaoCreditos(2, 7.4f, 10);
 
@@ -69,7 +71,7 @@ public class AlunoTest {
         resultadoObtido = aluno.getDisciplinasCursadas();
         assertEquals("MAB001", primeiroItem.getDisciplina().getCodigo());
         assertEquals("MAB002", segundoItem.getDisciplina().getCodigo());
-        ItemDeHistorico terceiroItem = resultadoObtido[2];
+        ItemDeHistorico terceiroItem = resultadoObtido.get(2);
         assertEquals("MAJ003", terceiroItem.getDisciplina().getCodigo());
         verificarAtualizacaoCreditos(3, 8.375f, 16);
     }
@@ -88,6 +90,15 @@ public class AlunoTest {
         assertEquals(historicoEsperado, historicoRetornado);
     }
 
+    @Test
+    public void testarMuitasDisciplinasCursadas() {
+        for (int i = 1; i <= 1000; i++) {
+            aluno.registrarConclusaoDisciplina(disciplina1, 10, 2020, 1);
+        }
+        assertEquals(1000, aluno.getQuantDisciplinasCursadas());
+    }
+
+
     private void verificarAtualizacaoCreditos(int quantDiscipinasEsperado,
                                               float craEsperado,
                                               int creditosAcumuladosEsperado) {
@@ -95,5 +106,7 @@ public class AlunoTest {
         assertEquals(craEsperado, aluno.getCra(), 0);  // o terceiro parâmetro é a maior diferença aceitável
         assertEquals(creditosAcumuladosEsperado, aluno.getCreditosAcumulados());
     }
+
+
 
 }

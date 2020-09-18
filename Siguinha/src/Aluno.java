@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+
 public class Aluno {
 
     // atributos (regra geral: todos private)
@@ -9,15 +11,14 @@ public class Aluno {
 
     private float cra;               // cra = Somatorio_d [media(d) * creditos(d) /
 
-    private int quantDisciplinasCursadas;
-    private ItemDeHistorico[] disciplinasCursadas;
+    private ArrayList<ItemDeHistorico> disciplinasCursadas;
 
     // construtor
     public Aluno(long dre, int anoDeMatricula, String nome) {
         this.dre = dre;
         this.anoDeMatricula = anoDeMatricula;
         this.nome = nome;
-        this.disciplinasCursadas = new ItemDeHistorico[16];
+        this.disciplinasCursadas = new ArrayList<>();
     }
 
     // métodos
@@ -25,26 +26,26 @@ public class Aluno {
     String retornarHistoricoAsString() {
        String resultado = "";
 
-       for (int i = 0; i < this.quantDisciplinasCursadas; i++) {
-           ItemDeHistorico item = this.disciplinasCursadas[i];
+       for (int i = 0; i < this.disciplinasCursadas.size(); i++) {
+           ItemDeHistorico item = this.disciplinasCursadas.get(i);
            // MAB001 - média 6.5 - 4 créditos - 2020.1
            resultado = resultado + item.getDisciplina().getCodigo() +
                    " - média " + item.getMediaFinal() +
                    " - " + item.getDisciplina().getCreditos() + " créditos" +
                    " - " + item.getAno() + "." + item.getSemestre();
-           if (i < this.quantDisciplinasCursadas - 1) {
+           if (i < this.disciplinasCursadas.size() - 1) {
                resultado = resultado + "\n";
            }
        }
        return resultado;
     }
 
-    public ItemDeHistorico[] getDisciplinasCursadas() {
+    public ArrayList<ItemDeHistorico> getDisciplinasCursadas() {
         return disciplinasCursadas;
     }
 
     public int getQuantDisciplinasCursadas() {
-        return quantDisciplinasCursadas;
+        return this.disciplinasCursadas.size();
     }
 
     public String getNome() {
@@ -102,8 +103,7 @@ public class Aluno {
         ItemDeHistorico novoItem = new ItemDeHistorico(
                 disciplina, this, anoConclusao, semestreConclusao, mediaFinal);
 
-        this.disciplinasCursadas[this.quantDisciplinasCursadas] = novoItem;
-        this.quantDisciplinasCursadas++;  // incrementa a quant já cursada
+        this.disciplinasCursadas.add(novoItem);
 
         // recupero o numerador corrente (antes da nova disciplina)
         float numeradorCorrenteCra = this.cra * this.creditosAcumulados;
