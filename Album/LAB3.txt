@@ -1,0 +1,22 @@
+A ideia é criarmos um álbum de figurinhas virtual.
+O usuário compra "pacotinhos" de figurinhas, cada um com certa quantidade de figurinhas em
+cada pacotinho (também é definida no momento da criação do álbum).
+
+Cada figurinha deve indicar a sua posição no álbum, e deve ter uma String indicando
+a URL (endereço na rede) de sua imagem.
+Dois objetos Figurinha devem ser considerados iguais quando se referem à mesma posição do álbum.
+(Duas figurinhas "iguais" podem ter URLs distintas, por qualquer razão -- redundâcia, etc.)
+
+Figurinhas inéditas vão sendo colecionadas, cada qual na sua posição correta do álbum,
+que tem um tamanho (quantidade de figurinhas) pré-definido (no momento da criação do álbum).
+Figurinhas repetidas vão sendo também guardadas para que possam ser trocadas com outro usuário.
+
+Devemos poder consultar no álbum quantas figurinhas já foram "coladas" no álbum,
+quantas estão faltando, quantas repetidas o usuário possui, e se o usuário possui determinada
+figurinha ("colada" ou repetida).
+Se menos de 10% do álbum falta para ele ficar completo, o usuário pode encomendar as figurinhas
+faltantes diretamente e completar seu álbum.
+
+É preciso saber responder, a qualquer instante, quantos pacotinhos de figurinhas foram comprados.
+O álbum deve ter um método receberNovoPacotinho, que receberá aquele número pré-definido
+de figurinhas, sorteadas aleatoriamente dentre o total de figurinhas do álbum.
