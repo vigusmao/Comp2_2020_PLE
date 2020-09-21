@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Calendar;
 
 public class Aluno {
 
@@ -97,7 +98,7 @@ public class Aluno {
 
     public void registrarConclusaoDisciplina(Disciplina disciplina,
                                              float mediaFinal,
-                                             int anoConclusao,  // ToDo default para ano corrente
+                                             int anoConclusao,
                                              int semestreConclusao) {
 
         ItemDeHistorico novoItem = new ItemDeHistorico(
@@ -116,8 +117,29 @@ public class Aluno {
         this.cra = (numeradorCorrenteCra + novaParcela) / this.creditosAcumulados;
     }
 
+    // Overload (ou "sobrecarga")
+    public void registrarConclusaoDisciplina(Disciplina disciplina,
+                                             float mediaFinal) {
+
+        int ano = Calendar.getInstance().get(Calendar.YEAR);  // pega o ano corrente
+        int mes = Calendar.getInstance().get(Calendar.MONTH); // pega o mês corrente
+        int semestre = mes <= 6 ? 1 : 2;  // computa o semestre corrente baseado no mês
+
+        // passa ano e semestre correntes para a versão "principal" deste método
+        registrarConclusaoDisciplina(disciplina, mediaFinal, ano, semestre);
+    }
+
     @Override
     public String toString() {
         return String.format("%s (DRE: %d)", this.nome, this.dre);
+    }
+
+    public static void main(String[] args) {
+        Aluno aluno = new Aluno(111, 2018, "Aluno Teste");
+        Disciplina d1 = new Disciplina("D1", "qualquer coisa");
+        Disciplina d2 = new Disciplina("D2", "qualquer outra coisa");
+        aluno.registrarConclusaoDisciplina(d1, 8, 2019, 1);
+        aluno.registrarConclusaoDisciplina(d2, 6.5f);
+        System.out.println(aluno.retornarHistoricoAsString());
     }
 }
