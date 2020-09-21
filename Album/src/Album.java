@@ -1,11 +1,23 @@
+import java.util.ArrayList;
+
 public class Album {
 
     public static final float PREENCHIMENTO_MINIMO_PARA_PERMITIR_AUTO_COMPLETAR = 0.9f;  // 90%
 
+    private int totalFigurinhasDoAlbumCompleto;
+    private int quantFigurinhasPorPacotinho;
+
+    private ArrayList<Figurinha> figurinhasColadas;
+    private ArrayList<Figurinha> figurinhasRepetidas;
 
 
     public Album(int totalFigurinhas, int quantFigurinhasPorPacotinho) {
-        // ToDo IMPLEMENT ME!!!
+        this.totalFigurinhasDoAlbumCompleto = totalFigurinhas;
+        this.quantFigurinhasPorPacotinho = quantFigurinhasPorPacotinho;
+
+        this.figurinhasColadas = new ArrayList<>();
+        this.figurinhasRepetidas = new ArrayList<>();
+
     }
 
     public void receberNovoPacotinho(Figurinha[] pacotinho) {
