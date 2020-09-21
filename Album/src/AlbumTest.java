@@ -29,9 +29,16 @@ public class AlbumTest {
         assertEquals(1, album.getTotalPacotinhosRecebidos());
         assertEquals(QUANT_FIGURINHAS_POR_PACOTE,
                 album.getQuantFigurinhasColadas() + album.getQuantFigurinhasRepetidas());
-        for (int i = 1; i <= QUANT_FIGURINHAS_POR_PACOTE; i++) {
-            assertTrue(album.possuiFigurinhaColada(novoPacotinho[i]));
+
+        for (Figurinha fig : novoPacotinho) {
+            assertTrue(album.possuiFigurinhaColada(fig));
         }
+
+        // equivalentemente... (e pior!)
+//        for (int i = 0; i < QUANT_FIGURINHAS_POR_PACOTE; i++) {
+//            assertTrue(album.possuiFigurinhaColada(novoPacotinho[i]));
+//        }
+
     }
 
     @Test
@@ -48,6 +55,7 @@ public class AlbumTest {
 
         album.receberNovoPacotinho(primeiroPacotinho);
         assertEquals(1, album.getQuantFigurinhasColadas());
+        assertEquals(TOTAL_FIGURINHAS - 1, album.getQuantFigurinhasFaltando());
         assertEquals(QUANT_FIGURINHAS_POR_PACOTE - 1, album.getQuantFigurinhasRepetidas());
         assertTrue(album.possuiFigurinhaRepetida(1));
         assertTrue(album.possuiFigurinhaRepetida(primeiroPacotinho[0]));  // outra forma
@@ -63,7 +71,7 @@ public class AlbumTest {
         assertTrue(album.possuiFigurinhaColada(23));
         assertFalse(album.possuiFigurinhaRepetida(10));
         assertFalse(album.possuiFigurinhaRepetida(23));
-        assertFalse(album.possuiFigurinhaRepetida(1));
+        assertTrue(album.possuiFigurinhaRepetida(1));
 
         assertEquals(2, album.getTotalPacotinhosRecebidos());
     }
@@ -77,8 +85,8 @@ public class AlbumTest {
                 0, album.getQuantFigurinhasColadas());
 
         // vamos agora preencher o álbum quase totalmente
-        while (album.getQuantFigurinhasColadas() <
-                TOTAL_FIGURINHAS * Album.PREENCHIMENTO_MINIMO_PARA_PERMITIR_AUTO_COMPLETAR) {
+        float limiteMinimo = TOTAL_FIGURINHAS * Album.PREENCHIMENTO_MINIMO_PARA_PERMITIR_AUTO_COMPLETAR;
+        while (album.getQuantFigurinhasColadas() < limiteMinimo) {
             Figurinha[] pacotinho = criarPacotinho(null);
             album.receberNovoPacotinho(pacotinho);
         }
@@ -88,9 +96,22 @@ public class AlbumTest {
                 TOTAL_FIGURINHAS, album.getQuantFigurinhasColadas());
     }
 
+    @Test
+    public void testarPacotinhoRecebidoComTamanhoErrado() {
+        Figurinha[] pacotinhoTosco = criarPacotinho(new int[] {2, 7});
+        album.receberNovoPacotinho(pacotinhoTosco);
+        assertEquals(0, album.getTotalPacotinhosRecebidos());
+        assertEquals(0, album.getQuantFigurinhasColadas());
+        assertEquals(0, album.getQuantFigurinhasRepetidas());
+    }
+
     private Figurinha[] criarPacotinho(int[] posicoesDesejadas) {
-        Figurinha[] novoPacotinho = new Figurinha[QUANT_FIGURINHAS_POR_PACOTE];
-        for (int i = 0; i < QUANT_FIGURINHAS_POR_PACOTE; i++) {
+        int tamanhoPacotinho = posicoesDesejadas == null ?
+                QUANT_FIGURINHAS_POR_PACOTE :
+                posicoesDesejadas.length;
+
+        Figurinha[] novoPacotinho = new Figurinha[tamanhoPacotinho];
+        for (int i = 0; i < tamanhoPacotinho; i++) {
             int posicaoDaFigurinha = posicoesDesejadas == null ? escolherPosicaoAleatoria() :
                     posicoesDesejadas[i];
             Figurinha figurinha = new Figurinha(posicaoDaFigurinha,

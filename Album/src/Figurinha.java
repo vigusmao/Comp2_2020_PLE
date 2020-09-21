@@ -1,7 +1,11 @@
 public class Figurinha {
 
+    private int posicao;
+    private String urlImagem;
+
     public Figurinha(int posicao, String urlImagem) {
-        // ToDo IMPLEMENT ME!!!
+        this.posicao = posicao;
+        this.urlImagem = urlImagem;
     }
 
     /**
@@ -10,8 +14,7 @@ public class Figurinha {
      * @return Um int dizendo a posição da figurinha
      */
     public int getPosicao() {
-        // ToDo IMPLEMENT ME!!!
-        return 0;
+        return posicao;
     }
 
     /**
@@ -20,7 +23,6 @@ public class Figurinha {
      * @return uma String com o endereço desejado
      */
     public String getUrlImagem() {
-        // ToDo IMPLEMENT ME!!!
-        return null;
+        return urlImagem;
     }
 }

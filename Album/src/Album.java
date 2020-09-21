@@ -6,37 +6,61 @@ public class Album {
 
     private int totalFigurinhasDoAlbumCompleto;
     private int quantFigurinhasPorPacotinho;
+    private int totalPacotinhosRecebidos;
 
+    // guardaremos as figurinhas NA ORDEM EM QUE FORAM RECEBIDAS, isto é, de forma desordenada por posição
     private ArrayList<Figurinha> figurinhasColadas;
+
+    // idem
     private ArrayList<Figurinha> figurinhasRepetidas;
 
 
     public Album(int totalFigurinhas, int quantFigurinhasPorPacotinho) {
         this.totalFigurinhasDoAlbumCompleto = totalFigurinhas;
         this.quantFigurinhasPorPacotinho = quantFigurinhasPorPacotinho;
+        this.totalPacotinhosRecebidos = 0;
 
         this.figurinhasColadas = new ArrayList<>();
         this.figurinhasRepetidas = new ArrayList<>();
 
     }
 
+    /**
+     * Recebe um novo pacotinho. Se o tamanho do pacotinho não for o tamanho "correto",
+     * ignora este pacotinho.
+     *
+     * @param pacotinho O pacotinho novo.
+     */
     public void receberNovoPacotinho(Figurinha[] pacotinho) {
-        // ToDo IMPLEMENT ME!!!
+        if (pacotinho.length != this.quantFigurinhasPorPacotinho) {
+            return;  // não faz nada!!!!
+        }
+
+        this.totalPacotinhosRecebidos++;
+
         for (int i = 0; i < pacotinho.length; i++) {
             Figurinha figurinha = pacotinho[i];
-            // faça alguma coisa com essa figurinha recebida
-            // (uma boa ideia é armazená-la em algum tipo de estrutura)
+            if (possuiFigurinhaColada(figurinha)) {
+                // repetida! -- adiciono no bolinho de repetidas
+                this.figurinhasRepetidas.add(figurinha);
+            } else {
+                this.figurinhasColadas.add(figurinha);
+            }
         }
 
         // equivalentemente, usar um "for each"
-        for (Figurinha figurinha : pacotinho) {
-
-        }
+//        for (Figurinha figurinha : pacotinho) {
+//            if (possuiFigurinhaColada(figurinha)) {
+//                // repetida! -- adiciono no bolinho de repetidas
+//                this.figurinhasRepetidas.add(figurinha);
+//            } else {
+//                this.figurinhasColadas.add(figurinha);
+//            }
+//        }
     }
 
     public int getTotalPacotinhosRecebidos() {
-        // ToDo IMPLEMENT ME!!!
-        return 0;
+        return this.totalPacotinhosRecebidos;
     }
 
     /**
@@ -47,11 +71,28 @@ public class Album {
      * não faz nada.
      */
     public void encomendarFigurinhasRestantes() {
-        // ToDo IMPLEMENT ME!!!    (será preciso validar a regra dos 10%)
+        // valida a regra dos 10%
+
+        if (getQuantFigurinhasColadas() <
+                this.totalFigurinhasDoAlbumCompleto * PREENCHIMENTO_MINIMO_PARA_PERMITIR_AUTO_COMPLETAR) {
+            return;  // não pode ainda auto-completar
+        }
+
+        for (int i = 1; i <= this.totalFigurinhasDoAlbumCompleto; i++) {
+            if (!possuiFigurinhaColada(i)) {
+                Figurinha figurinha = new Figurinha(
+                        i, "http://urlDaFigurinha" + i + ".jpg");
+                this.figurinhasColadas.add(figurinha);
+            }
+        }
     }
 
     public boolean possuiFigurinhaColada(int posicao) {
-        // ToDo IMPLEMENT ME!!!
+        for (Figurinha figurinha : this.figurinhasColadas) {
+            if (figurinha.getPosicao() == posicao) {
+                return true;
+            }
+        }
         return false;
     }
 
@@ -60,7 +101,11 @@ public class Album {
     }
 
     public boolean possuiFigurinhaRepetida(int posicao) {
-        // ToDo IMPLEMENT ME!!!
+        for (Figurinha figurinha : this.figurinhasRepetidas) {
+            if (figurinha.getPosicao() == posicao) {
+                return true;
+            }
+        }
         return false;
     }
 
@@ -69,19 +114,15 @@ public class Album {
     }
 
     public int getQuantFigurinhasColadas() {
-        // ToDo IMPLEMENT ME!!!
-        return Integer.MAX_VALUE;
-        // só pra retornar alguma coisa, evitando ainda o loop infinito nos testes quebrados
+        return this.figurinhasColadas.size();
     }
 
     public int getQuantFigurinhasRepetidas() {
-        // ToDo IMPLEMENT ME!!!
-        return 0;
+        return this.figurinhasRepetidas.size();
     }
 
     public int getQuantFigurinhasFaltando() {
-        // ToDo IMPLEMENT ME!!!
-        return 0;
+        return this.totalFigurinhasDoAlbumCompleto - getQuantFigurinhasColadas();
     }
 
 }
