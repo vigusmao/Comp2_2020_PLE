@@ -7,8 +7,10 @@ public class Album {
     private int totalFigurinhasDoAlbumCompleto;
     private int quantFigurinhasPorPacotinho;
     private int totalPacotinhosRecebidos;
+    private int quantFigurinhasColadas;
 
-    // guardaremos as figurinhas NA ORDEM EM QUE FORAM RECEBIDAS, isto é, de forma desordenada por posição
+    // guardaremos as figurinhas no álbum usando ENDEREÇAMENTO DIRETO, ou seja,
+    // figurinha de chave (no caso, a posição no álbum) x na posição x do array
     private ArrayList<Figurinha> figurinhasColadas;
 
     // idem
@@ -19,8 +21,14 @@ public class Album {
         this.totalFigurinhasDoAlbumCompleto = totalFigurinhas;
         this.quantFigurinhasPorPacotinho = quantFigurinhasPorPacotinho;
         this.totalPacotinhosRecebidos = 0;
+        this.quantFigurinhasColadas = 0;
 
         this.figurinhasColadas = new ArrayList<>();
+        // inicializa o álbum com nulls, para que todas as posições do álbum já possam ser acessadas
+        for (int i = 1; i <= this.totalFigurinhasDoAlbumCompleto + 1; i++) {  // não usaremos a posição 0
+            this.figurinhasColadas.add(null);
+        }
+
         this.figurinhasRepetidas = new ArrayList<>();
 
     }
@@ -44,19 +52,9 @@ public class Album {
                 // repetida! -- adiciono no bolinho de repetidas
                 this.figurinhasRepetidas.add(figurinha);
             } else {
-                this.figurinhasColadas.add(figurinha);
+                colarFigurinha(figurinha);
             }
         }
-
-        // equivalentemente, usar um "for each"
-//        for (Figurinha figurinha : pacotinho) {
-//            if (possuiFigurinhaColada(figurinha)) {
-//                // repetida! -- adiciono no bolinho de repetidas
-//                this.figurinhasRepetidas.add(figurinha);
-//            } else {
-//                this.figurinhasColadas.add(figurinha);
-//            }
-//        }
     }
 
     public int getTotalPacotinhosRecebidos() {
@@ -82,18 +80,18 @@ public class Album {
             if (!possuiFigurinhaColada(i)) {
                 Figurinha figurinha = new Figurinha(
                         i, "http://urlDaFigurinha" + i + ".jpg");
-                this.figurinhasColadas.add(figurinha);
+                colarFigurinha(figurinha);
             }
         }
     }
 
+    private void colarFigurinha(Figurinha figurinha) {
+        this.figurinhasColadas.set(figurinha.getPosicao(), figurinha);
+        this.quantFigurinhasColadas++;
+    }
+
     public boolean possuiFigurinhaColada(int posicao) {
-        for (Figurinha figurinha : this.figurinhasColadas) {
-            if (figurinha.getPosicao() == posicao) {
-                return true;
-            }
-        }
-        return false;
+        return this.figurinhasColadas.get(posicao) != null;
     }
 
     public boolean possuiFigurinhaColada(Figurinha figurinha) {  // overload
@@ -114,7 +112,7 @@ public class Album {
     }
 
     public int getQuantFigurinhasColadas() {
-        return this.figurinhasColadas.size();
+        return this.quantFigurinhasColadas;
     }
 
     public int getQuantFigurinhasRepetidas() {
