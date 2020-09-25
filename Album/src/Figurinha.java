@@ -25,4 +25,8 @@ public class Figurinha {
     public String getUrlImagem() {
         return urlImagem;
     }
+
+    public static Figurinha criarFigurinhaComUrlFake(int posicao) {
+        return new Figurinha(posicao, "http://urlDaFigurinha" + posicao + ".jpg");
+    }
 }

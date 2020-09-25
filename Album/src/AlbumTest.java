@@ -114,8 +114,7 @@ public class AlbumTest {
         for (int i = 0; i < tamanhoPacotinho; i++) {
             int posicaoDaFigurinha = posicoesDesejadas == null ? escolherPosicaoAleatoria() :
                     posicoesDesejadas[i];
-            Figurinha figurinha = new Figurinha(posicaoDaFigurinha,
-                    String.format("http://urlFakeDaFigurinha%d.jpg", posicaoDaFigurinha));
+            Figurinha figurinha = Figurinha.criarFigurinhaComUrlFake(posicaoDaFigurinha);
             novoPacotinho[i] = figurinha;
         }
         return novoPacotinho;

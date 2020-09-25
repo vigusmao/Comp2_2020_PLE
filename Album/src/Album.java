@@ -78,8 +78,7 @@ public class Album {
 
         for (int i = 1; i <= this.totalFigurinhasDoAlbumCompleto; i++) {
             if (!possuiFigurinhaColada(i)) {
-                Figurinha figurinha = new Figurinha(
-                        i, "http://urlDaFigurinha" + i + ".jpg");
+                Figurinha figurinha = Figurinha.criarFigurinhaComUrlFake(i);
                 colarFigurinha(figurinha);
             }
         }
@@ -122,5 +121,6 @@ public class Album {
     public int getQuantFigurinhasFaltando() {
         return this.totalFigurinhasDoAlbumCompleto - getQuantFigurinhasColadas();
     }
+
 
 }
