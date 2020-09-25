@@ -1,2 +1,8 @@
 public class LojaVirtual {
+
+
+
+
 }
+
+
