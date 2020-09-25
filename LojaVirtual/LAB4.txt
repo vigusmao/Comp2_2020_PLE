@@ -15,6 +15,7 @@
 - Crie uma classe Roupa, herdando de Produto, com os seguites atributos extras:
     --> tamanho (final char)  //  'p' 'm' 'g', etc.
     --> cor (String)
+    A categoria de qualquer livro deve ser automaticamente "Vestuário"
 
 - Crie uma classe LojaVirtual, com os atributos que você julgar necessários,
 e com os seguintes métodos públicos:
