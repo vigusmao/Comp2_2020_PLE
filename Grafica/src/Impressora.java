@@ -45,14 +45,14 @@ public class Impressora {
         // ToDo
     }
 
-    private boolean verificarNecessidadeRecarga(String texto) {
+    boolean verificarNecessidadeRecarga(String texto) {
         System.out.println("Verificando a necessidade de recarga...");
 
         float percentualJaConsumido = quantCaracteresImpressosDesdeUltimaRecarga *
                 consumoPercentualPorCaracter;
 
         float percentualRequerido = texto.length() *
-                quantCaracteresImpressosDesdeUltimaRecarga;
+                consumoPercentualPorCaracter;
 
         return percentualJaConsumido + percentualRequerido > 100;
     }

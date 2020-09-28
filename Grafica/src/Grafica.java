@@ -32,12 +32,20 @@ public class Grafica {
                         ehColorida.toLowerCase().charAt(0) == 's');
                 break;
 
+            case 't':
+                impressora = new ImpressoraTanqueDeTinta(marca, modelo);
+                break;
+
             case 'm':
                 impressora = new ImpressoraMatricial(marca);
                 break;
 
-            default:
+            case 'l':
                 impressora = new ImpressoraLaser();
+                break;
+
+            default:
+                impressora = new Impressora("Impressora Genérica", "Sem Marca");
         }
 
         return impressora;
