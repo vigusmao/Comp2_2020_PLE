@@ -1,3 +1,9 @@
+package historico;
+
+import entidades.Aluno;
+import entidades.Disciplina;
+import ui.Siguinha;
+
 public class ItemDeHistoricoDisciplinaCursada extends ItemDeHistorico {
 
     private Disciplina disciplina;

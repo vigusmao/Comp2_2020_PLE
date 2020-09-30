@@ -1,3 +1,7 @@
+package historico;
+
+import entidades.Aluno;
+
 public class ItemDeHistoricoAtividadeComplementar extends ItemDeHistorico {
 
     private char conceito;  // A, B, C, D

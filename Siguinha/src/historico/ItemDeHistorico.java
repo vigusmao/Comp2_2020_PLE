@@ -1,3 +1,7 @@
+package historico;
+
+import entidades.Aluno;
+
 import java.util.Calendar;
 
 public abstract class ItemDeHistorico {

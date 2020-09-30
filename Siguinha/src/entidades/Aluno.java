@@ -1,3 +1,8 @@
+package entidades;
+
+import historico.ItemDeHistorico;
+import historico.ItemDeHistoricoDisciplinaCursada;
+
 import java.util.ArrayList;
 import java.util.Calendar;
 
@@ -24,7 +29,7 @@ public class Aluno {
 
     // métodos
 
-    String retornarHistoricoAsString() {
+    protected String retornarHistoricoAsString() {
        String resultado = "";
 
        for (int i = 0; i < this.historico.size(); i++) {
@@ -141,7 +146,7 @@ public class Aluno {
     }
 
     public static void main(String[] args) {
-        Aluno aluno = new Aluno(111, 2018, "Aluno Teste");
+        Aluno aluno = new Aluno(111, 2018, "entidades.AlunoParaTestes Teste");
         Disciplina d1 = new Disciplina("D1", "qualquer coisa");
         Disciplina d2 = new Disciplina("D2", "qualquer outra coisa");
         aluno.registrarConclusaoDisciplina(d1, 8, 2019, 1);

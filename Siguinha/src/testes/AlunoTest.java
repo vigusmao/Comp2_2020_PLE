@@ -1,31 +1,36 @@
+package testes;
+
+import entidades.Aluno;
+import entidades.Disciplina;
+import historico.ItemDeHistorico;
+import historico.ItemDeHistoricoDisciplinaCursada;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
+import ui.Siguinha;
 
-import java.text.DecimalFormat;
-import java.text.DecimalFormatSymbols;
 import java.util.ArrayList;
 
 import static org.junit.Assert.*;
 
 public class AlunoTest {
 
-    private Aluno aluno;
+    private AlunoParaTestes aluno;
     private Disciplina disciplina1;
     private Disciplina disciplina2;
     private Disciplina disciplina3;
 
     @Before
     public void setUp() {
-        aluno = new Aluno(12345, 2018, "Aluno Teste");
+        aluno = new AlunoParaTestes(12345, 2018, "entidades.AlunoParaTestes Teste");
 
-        disciplina1 = new Disciplina("MAB001", "Disciplina 1");
+        disciplina1 = new Disciplina("MAB001", "entidades.Disciplina 1");
         disciplina1.setCreditos(4);
 
-        disciplina2 = new Disciplina("MAB002", "Disciplina 2");
+        disciplina2 = new Disciplina("MAB002", "entidades.Disciplina 2");
         disciplina2.setCreditos(6);
 
-        disciplina3 = new Disciplina("MAJ003", "Disciplina 3");
+        disciplina3 = new Disciplina("MAJ003", "entidades.Disciplina 3");
         disciplina3.setCreditos(6);
     }
 
@@ -88,9 +93,9 @@ public class AlunoTest {
 
         String historicoRetornado = aluno.retornarHistoricoAsString();
         String historicoEsperado =
-                "2019.2 - Disciplina 1 (MAB001) - média 6" + sep + "5 - 4 créditos\n" +
-                "2020.1 - Disciplina 2 (MAB002) - média 8" + sep + "0 - 6 créditos\n" +
-                "2020.2 - Disciplina 3 (MAJ003) - média 10" + sep + "0 - 6 créditos";
+                "2019.2 - entidades.Disciplina 1 (MAB001) - média 6" + sep + "5 - 4 créditos\n" +
+                "2020.1 - entidades.Disciplina 2 (MAB002) - média 8" + sep + "0 - 6 créditos\n" +
+                "2020.2 - entidades.Disciplina 3 (MAJ003) - média 10" + sep + "0 - 6 créditos";
         assertEquals(historicoEsperado, historicoRetornado);
     }
 

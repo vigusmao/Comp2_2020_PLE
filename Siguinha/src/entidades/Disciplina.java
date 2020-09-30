@@ -1,3 +1,5 @@
+package entidades;
+
 public class Disciplina {
 
     private final String codigo;

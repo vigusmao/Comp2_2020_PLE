@@ -1,3 +1,5 @@
+package ui;
+
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 
@@ -14,5 +16,7 @@ public class Siguinha {
     public static void main(String[] args) {
 
         System.out.println("Bem-vindo(a) ao SIGUINHA!");
+
+        // aqui começa a execução e a interface com o usuário
     }
 }
