@@ -5,7 +5,13 @@ public class ImpressoraMatricial extends Impressora {
     }
 
     @Override
-    public void imprimir(String texto) {
-        System.out.println("Imprimindo do jeito de uma impressora matricial...");
+    protected boolean executarImpressaoNoPapel(String texto) {
+        System.out.println("Jogando tinta no papel do jeito que uma matricial faz...");
+        return true;
+    }
+
+    @Override
+    public void efetuarRecarga() {
+        System.out.println("Trocando fita da impressora matricial...");
     }
 }

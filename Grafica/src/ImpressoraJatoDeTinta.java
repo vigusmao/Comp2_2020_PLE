@@ -20,13 +20,17 @@ public class ImpressoraJatoDeTinta extends Impressora {
     }
 
     @Override
-    public void imprimir(String texto) {
+    protected boolean executarImpressaoNoPapel(String texto) {
         if (texto.length() > 2) {
             executarLimpezaBicos();
         }
 
-        super.imprimir(texto);
+        System.out.println("Jogando tinta no papel do jeito que uma jato de tinta faz...");
+        return true;
+    }
 
-        System.out.println("Imprimindo do jeito de uma impressora jato de tinta...");
+    @Override
+    public void efetuarRecarga() {
+        System.out.println("Recarregando tinta da impressora jato de tinta...");
     }
 }

@@ -12,14 +12,14 @@ public class Aluno {
 
     private float cra;               // cra = Somatorio_d [media(d) * creditos(d) /
 
-    private ArrayList<ItemDeHistorico> disciplinasCursadas;
+    private ArrayList<ItemDeHistorico> historico;
 
     // construtor
     public Aluno(long dre, int anoDeMatricula, String nome) {
         this.dre = dre;
         this.anoDeMatricula = anoDeMatricula;
         this.nome = nome;
-        this.disciplinasCursadas = new ArrayList<>();
+        this.historico = new ArrayList<>();
     }
 
     // métodos
@@ -27,26 +27,32 @@ public class Aluno {
     String retornarHistoricoAsString() {
        String resultado = "";
 
-       for (int i = 0; i < this.disciplinasCursadas.size(); i++) {
-           ItemDeHistorico item = this.disciplinasCursadas.get(i);
-           // MAB001 - média 6.5 - 4 créditos - 2020.1
-           resultado = resultado + item.getDisciplina().getCodigo() +
-                   " - média " + item.getMediaFinal() +
-                   " - " + item.getDisciplina().getCreditos() + " créditos" +
-                   " - " + item.getAno() + "." + item.getSemestre();
-           if (i < this.disciplinasCursadas.size() - 1) {
+       for (int i = 0; i < this.historico.size(); i++) {
+           ItemDeHistorico item = this.historico.get(i);
+           resultado = resultado + item.toString();
+           if (i < this.historico.size() - 1) {
                resultado = resultado + "\n";
            }
        }
        return resultado;
     }
 
-    public ArrayList<ItemDeHistorico> getDisciplinasCursadas() {
-        return disciplinasCursadas;
+    public ArrayList<ItemDeHistorico> getHistorico() {
+        return historico;
     }
 
     public int getQuantDisciplinasCursadas() {
-        return this.disciplinasCursadas.size();
+        int contDisciplinas = 0;
+        for (ItemDeHistorico item : this.historico) {
+            if (item instanceof ItemDeHistoricoDisciplinaCursada) {
+                contDisciplinas++;
+            }
+        }
+        return contDisciplinas;
+
+        // fazendo dessa forma (correta!), temos um possível problema de performance,
+        // porque toda vez que eu quiser saber quantas disciplinas foram cursadas eu vou
+        // precisar iterar por todos os itens do histórico
     }
 
     public String getNome() {
@@ -101,10 +107,10 @@ public class Aluno {
                                              int anoConclusao,
                                              int semestreConclusao) {
 
-        ItemDeHistorico novoItem = new ItemDeHistorico(
-                disciplina, this, anoConclusao, semestreConclusao, mediaFinal);
+        ItemDeHistoricoDisciplinaCursada novoItem = new ItemDeHistoricoDisciplinaCursada(
+                this, anoConclusao, semestreConclusao, disciplina, mediaFinal);
 
-        this.disciplinasCursadas.add(novoItem);
+        this.historico.add(novoItem);
 
         // recupero o numerador corrente (antes da nova disciplina)
         float numeradorCorrenteCra = this.cra * this.creditosAcumulados;

@@ -40,12 +40,9 @@ public class Grafica {
                 impressora = new ImpressoraMatricial(marca);
                 break;
 
-            case 'l':
+            case 'l': default:
                 impressora = new ImpressoraLaser();
                 break;
-
-            default:
-                impressora = new Impressora("Impressora Genérica", "Sem Marca");
         }
 
         return impressora;

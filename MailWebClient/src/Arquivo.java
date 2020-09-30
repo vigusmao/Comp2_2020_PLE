@@ -8,24 +8,28 @@ public abstract class Arquivo {
 
     private int tamanhoEmBytes;
 
-    private final Date dataDeCriacao;
+    private Byte[] conteudoEmBytes;
+
+    private final Date dataCriacao;
+
+    private Date dataUltimaModificao;
 
     public Arquivo(String nome, String extensao) {
         this.nome = nome;
         this.extensao = extensao;
-        this.dataDeCriacao = new Date();  // now
+        this.dataCriacao = new Date();  // now
     }
 
     public Byte[] getConteudo() {
-        return null;  // ToDo
+        return conteudoEmBytes;  // ToDo
     }
 
     public int getTamanhoEmBytes() {
         return tamanhoEmBytes;
     }
 
-    public Date getDataDeCriacao() {
-        return dataDeCriacao;  // ToDo
+    public Date getDataCriacao() {
+        return dataCriacao;  // ToDo
     }
 
     /**
@@ -35,4 +39,14 @@ public abstract class Arquivo {
      * na tela, etc.)
      */
     public abstract void exibir();
+
+    /**
+     * Copia o conteúdo a partir de um Arquivo de origem.
+     * @param outroArquivo o arquivo-fonte (origem)
+     */
+    public void copiar(Arquivo outroArquivo) {
+        this.conteudoEmBytes = outroArquivo.getConteudo();
+        this.tamanhoEmBytes = outroArquivo.getTamanhoEmBytes();
+        this.dataUltimaModificao = new Date();
+    }
 }

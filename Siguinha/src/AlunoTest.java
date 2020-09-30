@@ -2,6 +2,8 @@ import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
 import java.util.ArrayList;
 
 import static org.junit.Assert.*;
@@ -40,18 +42,18 @@ public class AlunoTest {
 
     @Test
     public void getConclusaoDiscipinaTest() {
-        ArrayList<ItemDeHistorico> resultadoObtido = aluno.getDisciplinasCursadas();
-        assertNotNull(resultadoObtido);
-        for (int i = 0; i < resultadoObtido.size(); i++) {
-            assertNull(resultadoObtido.get(i));
+        ArrayList<ItemDeHistorico> historico = aluno.getHistorico();
+        assertNotNull(historico);
+        for (int i = 0; i < historico.size(); i++) {
+            assertNull(historico.get(i));
         }
         assertEquals(0, aluno.getQuantDisciplinasCursadas());
 
         // o aluno vai cursar a primeira disciplina
         aluno.registrarConclusaoDisciplina(disciplina1, 6.5f, 2019, 2);
 
-        resultadoObtido = aluno.getDisciplinasCursadas();
-        ItemDeHistorico primeiroItem = resultadoObtido.get(0);
+        historico = aluno.getHistorico();
+        ItemDeHistoricoDisciplinaCursada primeiroItem = (ItemDeHistoricoDisciplinaCursada) historico.get(0);
         assertEquals("MAB001", primeiroItem.getDisciplina().getCodigo());
         assertEquals(2019, primeiroItem.getAno());
         assertEquals(2, primeiroItem.getSemestre());
@@ -59,19 +61,19 @@ public class AlunoTest {
 
         aluno.registrarConclusaoDisciplina(disciplina2, 8, 2020, 1);
         // verificar todas as disciplinas do histórico até aqui
-        resultadoObtido = aluno.getDisciplinasCursadas();
+        historico = aluno.getHistorico();
         assertEquals("MAB001", primeiroItem.getDisciplina().getCodigo());
-        ItemDeHistorico segundoItem = resultadoObtido.get(1);
+        ItemDeHistoricoDisciplinaCursada segundoItem = (ItemDeHistoricoDisciplinaCursada) historico.get(1);
         assertEquals("MAB002", segundoItem.getDisciplina().getCodigo());
         verificarAtualizacaoCreditos(2, 7.4f, 10);
 
         // o aluno vai cursar a terceira disciplina
         aluno.registrarConclusaoDisciplina(disciplina3, 10, 2020, 1);
 
-        resultadoObtido = aluno.getDisciplinasCursadas();
+        historico = aluno.getHistorico();
         assertEquals("MAB001", primeiroItem.getDisciplina().getCodigo());
         assertEquals("MAB002", segundoItem.getDisciplina().getCodigo());
-        ItemDeHistorico terceiroItem = resultadoObtido.get(2);
+        ItemDeHistoricoDisciplinaCursada terceiroItem = (ItemDeHistoricoDisciplinaCursada) historico.get(2);
         assertEquals("MAJ003", terceiroItem.getDisciplina().getCodigo());
         verificarAtualizacaoCreditos(3, 8.375f, 16);
     }
@@ -82,11 +84,13 @@ public class AlunoTest {
         aluno.registrarConclusaoDisciplina(disciplina2, 8, 2020, 1);
         aluno.registrarConclusaoDisciplina(disciplina3, 10, 2020, 2);
 
+        char sep = Siguinha.getSeparadorDecimal();
+
         String historicoRetornado = aluno.retornarHistoricoAsString();
         String historicoEsperado =
-                "MAB001 - média 6.5 - 4 créditos - 2019.2\n" +
-                "MAB002 - média 8.0 - 6 créditos - 2020.1\n" +
-                "MAJ003 - média 10.0 - 6 créditos - 2020.2";
+                "2019.2 - Disciplina 1 (MAB001) - média 6" + sep + "5 - 4 créditos\n" +
+                "2020.1 - Disciplina 2 (MAB002) - média 8" + sep + "0 - 6 créditos\n" +
+                "2020.2 - Disciplina 3 (MAJ003) - média 10" + sep + "0 - 6 créditos";
         assertEquals(historicoEsperado, historicoRetornado);
     }
 

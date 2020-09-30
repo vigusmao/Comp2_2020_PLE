@@ -1,12 +1,12 @@
 import java.awt.*;
 
-public class Impressora {
+public abstract class Impressora {
 
     private String nome;
     private String marca;
 
     private int quantCaracteresImpressos;
-    private int quantCaracteresImpressosDesdeUltimaRecarga;
+    protected int quantCaracteresImpressosDesdeUltimaRecarga;
 
     private float consumoPercentualPorCaracter;
 
@@ -38,12 +38,24 @@ public class Impressora {
         quantCaracteresImpressos += texto.length();
         quantCaracteresImpressosDesdeUltimaRecarga += texto.length();
 
-        System.out.println("Enviando texto para a impressora física...");
+        boolean sucesso = executarImpressaoNoPapel(texto);
+
+        if (sucesso) {
+            System.out.println("Texto impresso com sucesso!");
+        } else {
+            System.out.println("Falha na impressão do texto");
+        }
     }
 
     public void imprimir(Image imagem) {
         // ToDo
     }
+
+    /**
+     * Realiza a impressão DE FATO, isto é, joga tinta no papel fazendo aparecer o texto.
+     * @param texto
+     */
+    protected abstract boolean executarImpressaoNoPapel(String texto);
 
     boolean verificarNecessidadeRecarga(String texto) {
         System.out.println("Verificando a necessidade de recarga...");
@@ -58,9 +70,9 @@ public class Impressora {
     }
 
     public void recarregar() {
-        System.out.println("Recarregando...");
-
-        quantCaracteresImpressosDesdeUltimaRecarga = 0;
+        efetuarRecarga();
+        this.quantCaracteresImpressosDesdeUltimaRecarga = 0;
     }
 
+    protected abstract void efetuarRecarga();
 }

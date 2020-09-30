@@ -1,32 +1,17 @@
 import java.util.Calendar;
 
-public class ItemDeHistorico {
-
-    private Disciplina disciplina;
+public abstract class ItemDeHistorico {
 
     private int ano;
 
     private int semestre;
 
-    private float mediaFinal;
-
     private Aluno aluno;
 
-    public ItemDeHistorico(Disciplina disciplina, Aluno aluno,
-                           int ano, int semestre, float mediaFinal) {
-        this.disciplina = disciplina;
+    public ItemDeHistorico(Aluno aluno, int ano, int semestre) {
         this.aluno = aluno;
         setAno(ano);
         this.semestre = semestre;
-        this.mediaFinal = mediaFinal;
-    }
-
-    public Disciplina getDisciplina() {
-        return disciplina;
-    }
-
-    public void setDisciplina(Disciplina disciplina) {
-        this.disciplina = disciplina;
     }
 
     public int getAno() {
@@ -54,15 +39,11 @@ public class ItemDeHistorico {
         this.semestre = semestre;
     }
 
-    public float getMediaFinal() {
-        return mediaFinal;
+    @Override
+    public String toString() {
+        return String.format("%d.%d - %s",
+                this.ano, this.semestre, getDescricao());
     }
 
-    public void setMediaFinal(float mediaFinal) {
-        this.mediaFinal = mediaFinal;
-    }
-
-    public boolean obteveAprovacao() {
-        return this.mediaFinal >= Siguinha.MEDIA_MINIMA_PARA_APROVACAO;
-    }
+    protected abstract String getDescricao();
 }
