@@ -46,4 +46,16 @@ public class TuiterLite<T> {
         // ToDo IMPLEMENT ME!!!
         return null;
     }
+
+    // Mainzinho bobo, apenas ilustrando String.split(regexp), e o String.startsWith()
+
+//    public static void main(String[] args) {
+//        String frase = "Testando algo,sdf com #hashtags no meio #teste vamos ver!fdfgf";
+//        String[] palavras = frase.split("[\\s,!]");
+//        for (String palavra : palavras) {
+//            if (palavra.startsWith("#")) {
+//                System.out.println(palavra);
+//            }
+//        }
+//    }
 }
