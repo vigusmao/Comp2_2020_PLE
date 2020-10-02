@@ -9,11 +9,11 @@
  */
 public class TuiterLite<T> {
 
-    public static int TAMANHO_MAXIMO_TUITES = 120;
+    public static final int TAMANHO_MAXIMO_TUITES = 120;
 
     /**
      * Cadastra um usuário, retornando o novo objeto Usuario criado.
-     * Se o email informado já estiver em uso, não faz nada e retora null.
+     * Se o email informado já estiver em uso, não faz nada e retorna null.
      * @param nome O nome do usuário.
      * @param email O e-mail do usuário (precisa ser único no sistema).
      * @return O Usuario criado.

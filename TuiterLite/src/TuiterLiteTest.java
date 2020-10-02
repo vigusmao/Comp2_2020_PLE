@@ -20,7 +20,7 @@ public class TuiterLiteTest {
         usuario = tuiterLite.cadastrarUsuario("Fulano", "fulano@teste.com");
 
         // cria uma imagem para o usuário
-        Image foto = new BufferedImage(100, 100, BufferedImage.TYPE_INT_RGB);
+        Image foto = new BufferedImage(100, 100, BufferedImage.TYPE_INT_RGB);  // mock
         usuario.setFoto(foto);
     }
 
@@ -47,18 +47,20 @@ public class TuiterLiteTest {
 
     @Test
     public void testeTamanhoTuite() {
+        assertNotNull(tuiterLite.tuitarAlgo(usuario, "Teste curto"));
+
         // testaremos para 100 tamanhos diferentes, todos maiores do que o máximo permitido
         for (int excessoCaracteres = 1; excessoCaracteres <= 100; excessoCaracteres++) {
 
             // cria uma String muito grande
-            int tamanho = TuiterLite.TAMANHO_MAXIMO_TUITES + 1;
+            int tamanho = TuiterLite.TAMANHO_MAXIMO_TUITES + excessoCaracteres;
             StringBuilder sb = new StringBuilder();
             for (int i = 1; i <= tamanho; i++) {
                 sb.append("x");
             }
             String texto = sb.toString();
 
-            assertNull("Um tuite maior do que o tamanho máximo deve lançar uma TamanhoMaximoExcedidoException",
+            assertNull("Um tuite maior do que o tamanho máximo deve ser ignorado",
                     tuiterLite.tuitarAlgo(usuario, texto));
         }
     }
@@ -104,14 +106,14 @@ public class TuiterLiteTest {
     @Test
     public void testeHashtags() {
 
-        Tuite tuite = tuiterLite.tuitarAlgo(usuario, "#P3 Testando algo com #hashtag ao longo... #teste");
+        Tuite tuite = tuiterLite.tuitarAlgo(usuario, "#LAB5 Testando algo com #hashtag ao longo... #teste");
 
         // vamos testar se as hashtags (palavras iniciadas por #) foram corretamente detectadas
 
         assertTrue("Hashtags devem ser detectadas automaticamente e adicionadas ao tuíte",
                 tuite.getHashtags().contains("#hashtag"));
         assertTrue("Hashtags devem ser detectadas automaticamente inclusive no começo do tuíte",
-                tuite.getHashtags().contains("#P3"));
+                tuite.getHashtags().contains("#LAB5"));
         assertTrue("Hashtags devem ser detectadas automaticamente inclusive no fim do tuite",
                 tuite.getHashtags().contains("#teste"));
 
@@ -121,9 +123,9 @@ public class TuiterLiteTest {
         assertFalse(tuite.getHashtags().contains("#paralelepipedo"));
 
         // finalmente, vamos tuitar outra coisa para ver se as hashtags estão sendo registradas corretamente no sistema
-        tuiterLite.tuitarAlgo(usuario, "Repetindo o uso de uma hashtag #P3");
+        tuiterLite.tuitarAlgo(usuario, "Repetindo o uso de uma hashtag #LAB5");
         assertEquals("Hashtags devem ser contabilizadas corretamente pelo sistema",
-                "#P3", tuiterLite.getHashtagMaisComum());
+                "#LAB5", tuiterLite.getHashtagMaisComum());
     }
 
     @Test
@@ -138,14 +140,16 @@ public class TuiterLiteTest {
         }
 
         // vamos verificar que o usuário ainda é INICIANTE
-        assertEquals("Um usuário não pode ser promovido antes de ter feito 100 tuítes",
+        assertEquals("Um usuário não pode ser promovido antes de ter feito" +
+                        Usuario.MIN_TUITES_SENIOR + " tuítes",
                 NivelUsuario.INICIANTE, usuario.getNivel());
 
         // agora vamos produzir mais um tuite daquele usuário
         tuiterLite.tuitarAlgo(usuario, "Oi! Vou ser promovido!");
 
         // verifique a promoção ao nível seguinte
-        assertEquals("O usuário deve ser promovido automaticamente a SENIOR quando atinge a marca de 100 tuítes",
+        assertEquals("O usuário deve ser promovido automaticamente a SENIOR quando atinge a marca de " +
+                Usuario.MIN_TUITES_SENIOR + " tuítes",
                 NivelUsuario.SENIOR, usuario.getNivel());
 
         // vamos agora passá-lo para o próximo nível
@@ -154,7 +158,8 @@ public class TuiterLiteTest {
         }
 
         // verifique a promoção ao nível seguinte
-        assertEquals("O usuário deve ser promovido automaticamente a NINJA quando atinge a marca de 500 tuítes",
+        assertEquals("O usuário deve ser promovido automaticamente a NINJA quando atinge a marca de " +
+                Usuario.MIN_TUITES_NINJA + " tuítes",
                 NivelUsuario.NINJA, usuario.getNivel());
     }
 
