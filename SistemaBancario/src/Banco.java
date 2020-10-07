@@ -1,14 +1,11 @@
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class Banco {
 
     private String nome;
 
     private Map<Long, Conta> contaByNumeroDaConta;
-    private Map<Correntista, Conta> contaByCorrentista;
+    private Map<Correntista, List<Conta>> contasByCorrentista;
 
     private List<Correntista> correntistas;
     private List<Agencia> agencias;
@@ -16,7 +13,7 @@ public class Banco {
 
     public Banco() {
         this.contaByNumeroDaConta = new HashMap<>();
-        this.contaByCorrentista = new HashMap<>();
+        this.contasByCorrentista = new HashMap<>();
         this.correntistas = new ArrayList<>();
         this.agencias = new ArrayList<>();
         this.gerentes = new ArrayList<>();
@@ -33,7 +30,14 @@ public class Banco {
         numero += digitoVerificador;
         Conta novaConta = new Conta(numero, agencia, correntista);
         this.contaByNumeroDaConta.put(numero, novaConta);
-        this.contaByCorrentista.put(correntista, novaConta);
+
+        List<Conta> contasDesteCorrentista = this.contasByCorrentista.get(correntista);
+        if (contasDesteCorrentista == null) {
+            contasDesteCorrentista = new ArrayList<>();
+            this.contasByCorrentista.put(correntista, contasDesteCorrentista);
+        }
+        contasDesteCorrentista.add(novaConta);
+
         return novaConta;
     }
 
@@ -84,9 +88,28 @@ public class Banco {
      * retornará uma delas, arbitrariamente.
      *
      * @param correntista O dono da conta desejada
-     * @return A conta desejada, caso seja localizada; null, caso contrário
+     * @return A conta desejada, caso seja localizada E SEJA ÚNICA para aquele correntista;
+     *         null, caso contrário (ou seja, caso não exista ou não seja única)
      */
     public Conta obterConta(Correntista correntista) {
-        return this.contaByCorrentista.get(correntista);
+        List<Conta> contasDesteCorrentista = this.contasByCorrentista.get(correntista);
+
+        return contasDesteCorrentista != null && contasDesteCorrentista.size() == 1 ?
+                contasDesteCorrentista.get(0) :
+                null;
+    }
+
+    /**
+     * Retorna as contas pré-existentes a partir do parâmetro de busca correntista.
+     * Se o mesmo correntista possuir mais de uma conta no banco,
+     * retornará TODAS elas, na forma de uma List.
+     *
+     * @param correntista O dono das contas desejadas
+     * @return Uma lista de contas, caso existam;
+     *         null, caso contrário
+     */
+    public List<Conta> obterContas(Correntista correntista) {
+         return Collections.unmodifiableList(
+                 this.contasByCorrentista.get(correntista));
     }
 }
