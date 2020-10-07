@@ -1,16 +1,22 @@
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class Banco {
 
     private String nome;
 
-    private ArrayList<Conta> contas;
-    private ArrayList<Correntista> correntistas;
-    private ArrayList<Agencia> agencias;
-    private ArrayList<Gerente> gerentes;
+    private Map<Long, Conta> contaByNumeroDaConta;
+    private Map<Correntista, Conta> contaByCorrentista;
+
+    private List<Correntista> correntistas;
+    private List<Agencia> agencias;
+    private List<Gerente> gerentes;
 
     public Banco() {
-        this.contas = new ArrayList<>();
+        this.contaByNumeroDaConta = new HashMap<>();
+        this.contaByCorrentista = new HashMap<>();
         this.correntistas = new ArrayList<>();
         this.agencias = new ArrayList<>();
         this.gerentes = new ArrayList<>();
@@ -26,12 +32,13 @@ public class Banco {
         numero *= 10;  // shift left em uma casa (base 10)
         numero += digitoVerificador;
         Conta novaConta = new Conta(numero, agencia, correntista);
-        this.contas.add(novaConta);
+        this.contaByNumeroDaConta.put(numero, novaConta);
+        this.contaByCorrentista.put(correntista, novaConta);
         return novaConta;
     }
 
     public int getQuantContas() {
-        return this.contas.size();
+        return this.contaByNumeroDaConta.size();
     }
 
     private int obterDigitoVerificador(long numero) {
@@ -68,13 +75,7 @@ public class Banco {
      * @return A conta desejada, caso seja localizada; null, caso contrário
      */
     public Conta obterConta(long numeroDaContaDesejada) {
-        for (int i = 0; i < getQuantContas(); i++) {
-            Conta conta = this.contas.get(i);
-            if (conta.getNumero() == numeroDaContaDesejada) {
-                return conta;  // encontrei a conta desejada!!!
-            }
-        }
-        return null;
+        return this.contaByNumeroDaConta.get(numeroDaContaDesejada);
     }
 
     /**
@@ -86,12 +87,6 @@ public class Banco {
      * @return A conta desejada, caso seja localizada; null, caso contrário
      */
     public Conta obterConta(Correntista correntista) {
-        for (int i = 0; i < getQuantContas(); i++) {
-            Conta conta = this.contas.get(i);
-            if (conta.getCorrentista() == correntista) {
-                return conta;  // encontrei a conta desejada!!!
-            }
-        }
-        return null;
+        return this.contaByCorrentista.get(correntista);
     }
 }
