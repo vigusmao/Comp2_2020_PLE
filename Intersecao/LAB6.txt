@@ -1,0 +1,2 @@
+Implementem o CalculadorIntersecaoEsperto, fazendo passarem os testes, e percebam
+a diferença em performance em relação aos outros dois, aumentando o MAXIMO.
