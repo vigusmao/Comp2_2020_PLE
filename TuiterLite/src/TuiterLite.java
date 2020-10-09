@@ -1,3 +1,7 @@
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+
 /**
  *  Esta classe implementa um sistema de mensagens curtas estilo Twitter.
  *  É preciso cadastrar um usuário, identificado pelo seu e-mail, para que tuítes possam ser feitos.
@@ -11,6 +15,15 @@ public class TuiterLite<T> {
 
     public static final int TAMANHO_MAXIMO_TUITES = 120;
 
+    private List<Usuario> usuarios;  // transformar em um Map<String, Usuario> usuarioByEmail;
+
+    private List<HashtagComContador> hashtags;  // transformar em um Map<String, Integer> contByHashtag;
+
+    public TuiterLite() {
+        this.usuarios = new ArrayList<>();
+        this.hashtags = new ArrayList<>();
+    }
+
     /**
      * Cadastra um usuário, retornando o novo objeto Usuario criado.
      * Se o email informado já estiver em uso, não faz nada e retorna null.
@@ -19,11 +32,13 @@ public class TuiterLite<T> {
      * @return O Usuario criado.
      */
     public Usuario cadastrarUsuario(String nome, String email) {
-        // toDo: verificar se o usuário já existe no sistema (pelo email)
-
         Usuario novoUsuario = new Usuario(nome, email);
 
-        // toDo: armazenar esse usuário em alguma estrutura que seja atributo de TuiterLite
+        if (this.usuarios.contains(novoUsuario)) {
+            return null;
+        }
+
+        this.usuarios.add(novoUsuario);
 
         return novoUsuario;
     }
@@ -38,8 +53,30 @@ public class TuiterLite<T> {
      * @return Um "tuíte", que será devidamente publicado no sistema
      */
     public Tuite tuitarAlgo(Usuario usuario, String texto) {
-        // ToDo IMPLEMENT ME!!!
-        return null;
+
+        if (texto.length() > TAMANHO_MAXIMO_TUITES) {
+            return null;
+        }
+
+        if (!this.usuarios.contains(usuario)) {
+            return null;
+        }
+
+        Tuite tuite = new Tuite(usuario, texto);
+
+        Collection<String> hashtagsDoTuite = tuite.getHashtags();
+        for (String hashtag : hashtagsDoTuite) {
+            HashtagComContador hashtagComContador = localizarHashtagComContador(hashtag);
+            if (hashtagComContador != null) {
+                hashtagComContador.cont++;
+            } else {
+                hashtagComContador = new HashtagComContador(hashtag, 1);
+                this.hashtags.add(hashtagComContador);
+            }
+        }
+
+        usuario.contabilizarNovoTuite();
+        return tuite;
     }
 
     /**
@@ -48,8 +85,33 @@ public class TuiterLite<T> {
      * @return A hashtag mais comum, ou null se nunca uma hashtag houver sido tuitada.
      */
     public String getHashtagMaisComum() {
-        // ToDo IMPLEMENT ME!!!
+        int maxCont = 0;
+        String result = null;
+        for (HashtagComContador hashtagComContador : this.hashtags) {
+            if (hashtagComContador.cont > maxCont) {
+                maxCont = hashtagComContador.cont;
+                result = hashtagComContador.hashtag;
+            }
+        }
+        return result;
+    }
+
+    private HashtagComContador localizarHashtagComContador(String hashtag) {
+        for (HashtagComContador hashtagComContador : this.hashtags) {
+            if (hashtagComContador.hashtag.equals(hashtag)) {
+                return hashtagComContador;
+            }
+        }
         return null;
+    }
+
+    private class HashtagComContador {
+        final String hashtag;
+        int cont;
+        HashtagComContador(String hashtag, int cont) {
+            this.hashtag = hashtag;
+            this.cont = cont;
+        }
     }
 
     // Mainzinho bobo, apenas ilustrando String.split(regexp), e o String.startsWith()

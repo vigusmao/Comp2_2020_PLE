@@ -1,3 +1,5 @@
+import java.util.Objects;
+
 public class Correntista {
 
     private String nome;
@@ -11,5 +13,19 @@ public class Correntista {
 
     public String getNome() {
         return nome;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Correntista that = (Correntista) o;
+        return Objects.equals(nome, that.nome);
+    }
+
+    @Override
+    public int hashCode() {
+
+        return Objects.hash(nome);
     }
 }

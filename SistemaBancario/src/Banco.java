@@ -109,7 +109,8 @@ public class Banco {
      *         null, caso contrário
      */
     public List<Conta> obterContas(Correntista correntista) {
-         return Collections.unmodifiableList(
-                 this.contasByCorrentista.get(correntista));
+        List<Conta> contas = this.contasByCorrentista.get(correntista);
+
+        return contas == null ? null : Collections.unmodifiableList(contas);
     }
 }

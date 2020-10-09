@@ -129,7 +129,11 @@ public class BancoTest {
         assertNull("Usuários com mais de uma conta devem fazer com que o método obterConta() " +
                 "retorne null", resultadoBuscaContaMaria);
 
-        List<Conta> resultadoBuscaContasDaMaria = banco.obterContas(maria);
+        Correntista outroObjetoRepresentandoAMesmaMaria = new Correntista("Maria", 333123);
+
+        List<Conta> resultadoBuscaContasDaMaria = banco.obterContas(
+                outroObjetoRepresentandoAMesmaMaria);
+
         assertEquals("Todas as contas de um correntista devem ser retornadas",
                 2, resultadoBuscaContasDaMaria.size());
         assertFalse(resultadoBuscaContasDaMaria.contains(conta1));

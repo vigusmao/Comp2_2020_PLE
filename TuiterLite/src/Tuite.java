@@ -5,20 +5,23 @@ public class Tuite<T> {
     private final Usuario autor;
     private final String texto;
 
-    // hashtags?
-    // objeto anexado?
+    private ArrayList<String> hashtags;
+
+    private T anexo;
 
     public Tuite(Usuario autor, String texto) {
         this.autor = autor;
         this.texto = texto;
+        this.hashtags = new ArrayList<>();
+        extrairHashtags();
     }
 
-    public void anexarAlgo(Object anexo) {
-        // ToDo IMPLEMENT ME!!!!
+    public void anexarAlgo(T anexo) {
+        this.anexo = anexo;
     }
 
     public Object getAnexo() {
-        return null;  // ToDo IMPLEMENT ME!!!
+        return anexo;
     }
 
     public Usuario getAutor() {
@@ -30,6 +33,15 @@ public class Tuite<T> {
     }
 
     public ArrayList<String> getHashtags() {
-        return null;  // ToDo IMPLEMENT ME!!!
+        return hashtags;
+    }
+
+    private void extrairHashtags() {
+        String[] tokens = this.texto.split("[\\s,]");
+        for (String token : tokens) {
+            if (token.startsWith("#")) {
+                this.hashtags.add(token);
+            }
+        }
     }
 }
