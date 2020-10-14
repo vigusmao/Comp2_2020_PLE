@@ -67,7 +67,7 @@ public class BancoTest {
     }
 
     @Test
-    public void testarOperacoesBancarias() {
+    public void testarOperacoesBancarias() throws SaldoInsuficienteException, SenhaInvalidaException {
         conta1.receberDepositoEmDinheiro(300);
         assertEquals("O saldo deve refletir depósitos recebidos",
                 300, conta1.getSaldo(), FLOAT_DELTA);
@@ -80,7 +80,8 @@ public class BancoTest {
         assertEquals("Não deve ser possível sacar se não houver fundos suficientes (considerando o limite)",
                 290, conta1.getSaldo(), FLOAT_DELTA);
 
-        conta1.efetuarTransferencia(conta2, 250);
+        conta1.efetuarTransferencia(conta2, 250, conta1.getCorrentista().getSenhaNumerica());
+
         assertEquals("O saldo da conta de origem deve diminuir após uma transferência",
                 40, conta1.getSaldo(), FLOAT_DELTA);
         assertEquals("O saldo da conta de destino deve aumentar após uma transferência",
@@ -93,20 +94,27 @@ public class BancoTest {
 
     @Ignore
     @Test
-    public void testarSaqueComSenhaIncorreta() {
-        conta1.sacar(10, 3333333);
-        assertEquals("Saques não devem ser permitidos se a senha estiver incorreta",
-                0, conta1.getSaldo(), FLOAT_DELTA);
+    public void testarSaqueComSenhaIncorreta() throws SaldoInsuficienteException {
 
-        conta1.sacar(10, senhaConta1);
-        assertEquals("Saques devem ser permitidos se a senha estiver correta",
-                -10, conta1.getSaldo(), FLOAT_DELTA);
+        try {
+            conta1.sacar(10, 3333333);
+            fail("Uma exceçao deve ser gerada quando a senha informada estiver incorreta");
+        } catch (SenhaInvalidaException e) {
+            ///// está tudo bem!!!!! a senha que deveria ser lançada foi lançada!!!!
+        }
+
+        assertEquals(0, conta1.getSaldo(), FLOAT_DELTA);
     }
 
     @Ignore
     @Test
-    public void testarTransferenciaSemFundos() {
-        conta1.efetuarTransferencia(conta2, 500);
+    public void testarTransferenciaSemFundos() throws SaldoInsuficienteException, SenhaInvalidaException {
+        try {
+            conta1.efetuarTransferencia(conta2, 500, conta1.getCorrentista().getSenhaNumerica());
+            fail("Uma exceção deve ser lançada se não houver saldo suficiente");
+        } catch (SaldoInsuficienteException e) {
+            // tudo ok!
+        }
         assertEquals("Não deve ser possível sacar se não houver fundos suficientes (considerando o limite)",
                 0, conta1.getSaldo(), FLOAT_DELTA);
     }

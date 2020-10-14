@@ -36,7 +36,13 @@ public class ImpressoraTest {
         // cada caracter vai consumir 10 porcento da tinta!!
         impressora.setConsumoPercentualPorCaracter(10);
 
-        impressora.imprimir("1234567");
+        try {
+            impressora.imprimir("1234567");
+        } catch (FaltouTintaException e) {
+            fail(e.getMessage());
+        } catch (AcabouOPapelException e) {
+            fail();
+        }
 
         assertTrue(impressora.verificarNecessidadeRecarga("1234"));
 

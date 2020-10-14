@@ -8,7 +8,14 @@ public class Grafica {
 
         minhaImpressora = criarImpressora();
 
-        minhaImpressora.imprimir("Hello!");
+        try {
+            minhaImpressora.imprimir("Hello!");
+        } catch (FaltouTintaException e) {
+            System.out.println(String.format("acabou a tinta %s!!!", e.getCorFaltante()));
+        } catch (AcabouOPapelException e) {
+            System.out.println("acabou o papel!!!");
+        }
+
         System.out.println(minhaImpressora.getConsumoPercentualPorCaracter());
     }
 

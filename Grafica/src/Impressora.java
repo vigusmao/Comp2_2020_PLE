@@ -1,3 +1,4 @@
+import javax.naming.directory.InvalidAttributesException;
 import java.awt.*;
 
 public abstract class Impressora {
@@ -30,9 +31,21 @@ public abstract class Impressora {
         this.consumoPercentualPorCaracter = consumoPercentualPorCaracter;
     }
 
-    public void imprimir(String texto) {
+    public void imprimir(String texto) throws FaltouTintaException, AcabouOPapelException {
         if (verificarNecessidadeRecarga(texto)) {
             recarregar();
+        }
+
+        boolean faltouTinta = true;  // ToDo teria que verificar de alguma forma real
+        boolean acabouOPapel = false;  // ToDo teria que verificar de alguma forma real
+
+        if (faltouTinta) {
+            FaltouTintaException exception = new FaltouTintaException("magenta");
+            throw exception;
+        }
+
+        if (acabouOPapel) {
+            throw new AcabouOPapelException();
         }
 
         quantCaracteresImpressos += texto.length();

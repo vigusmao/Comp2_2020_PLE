@@ -75,18 +75,54 @@ public class Conta {
         depositar(valor, "em dinheiro");
     }
 
-    public void sacar(float valor, int senha) {
-        numeroSaques++;
+    /**
+     *
+     * @param valor
+     * @param senha
+     * @throws SaldoInsuficienteException
+     * @throws SenhaInvalidaException se a senha estiver incorreta
+     */
+    public void sacar(float valor, int senha)
+            throws SaldoInsuficienteException, SenhaInvalidaException {
 
         if (this.saldo - valor < -LIMITE) {  // saldo insuficiente
-            return;  // ToDo lançar exceção
+            throw new SaldoInsuficienteException();
         }
+        if (senha != this.correntista.getSenhaNumerica()) {
+            throw new SenhaInvalidaException();
+        }
+
+        numeroSaques++;
+
         this.saldo -= valor;
         String novoItem = String.format("Saque: R$%.2f", valor);
         this.historicoOperacoes[this.quantItensHistorico++] = novoItem;
     }
 
-    public void efetuarTransferencia(Conta contaDestino, float valor) {
+    /**
+     * Transfere fundos desta conta (this) para a conta destino informada.
+     *
+     * @param contaDestino a conta que receberá o valor transferido
+     * @param valor o valor desejado
+     * @param senha a senha do correntista dono desta conta de origem
+     *
+     * @throws SaldoInsuficienteException se não houver saldo e não for possível
+     *                                    resgatar o valor que está faltando de uma
+     *                                    aplicação automática
+     * @throws SenhaInvalidaException se a senha estiver incorreta
+     */
+    public void efetuarTransferencia(Conta contaDestino, float valor, int senha)
+            throws SaldoInsuficienteException, SenhaInvalidaException {
+
+        if (valor > this.saldo + LIMITE) {  // saldo insuficiente
+            SaldoInsuficienteException e = new SaldoInsuficienteException();
+            e.setDeficit(valor - (this.saldo + LIMITE));
+            throw e;
+        }
+        if (senha != this.correntista.getSenhaNumerica()) {
+            throw new SenhaInvalidaException();
+        }
+
         numeroTransferencias++;
 
         this.saldo -= valor;
@@ -121,6 +157,10 @@ public class Conta {
 
     public static int getNumeroDepositos() {
         return numeroDepositos;
+    }
+
+    public void bloquear() {
+        // ToDo IMPLEMENT ME!!!
     }
 
     @Override

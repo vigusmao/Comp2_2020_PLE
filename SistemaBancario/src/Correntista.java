@@ -15,6 +15,14 @@ public class Correntista {
         return nome;
     }
 
+    public int getSenhaNumerica() {
+        return senhaNumerica;
+    }
+
+    public void setSenhaNumerica(int senhaNumerica) {
+        this.senhaNumerica = senhaNumerica;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
