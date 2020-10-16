@@ -169,15 +169,23 @@ public class TuiterLiteTest {
     @Test
     public void testePerformanceContabilizacaoDasHashtags() {
 
+        int tamanho = 32000;
+
         long inicio = System.currentTimeMillis();
-        for (int i = 1; i <= 30; i++) {
+        for (int i = 1; i <= tamanho; i++) {
             String hashtag = String.format("#%d", i);
             tuiterLite.tuitarAlgo(usuario, hashtag);
         }
         tuiterLite.tuitarAlgo(usuario, "#5");
+        long duracao = System.currentTimeMillis() - inicio;
+        System.out.println("duracao (" + tamanho + " tuites) = " +
+                duracao + " milissegundos");
+
+        inicio = System.currentTimeMillis();
         assertEquals("#5", tuiterLite.getHashtagMaisComum());
-        System.out.println("duracao = " +
-                (System.currentTimeMillis() - inicio) + " milissegundos");
+        duracao = System.currentTimeMillis() - inicio;
+        System.out.println("duracao (encontrar hashtag mais comum) = " +
+                duracao + " milissegundos");
     }
 
     /////
@@ -185,10 +193,12 @@ public class TuiterLiteTest {
     /////
     @Test
     public void testePerformanceTuites() {
+        int tamanho = 32000;
+
         long inicio = System.currentTimeMillis();
 
         // vamos cadastrar um número grande de usuários
-        for (int i = 1; i <= 30; i++) {
+        for (int i = 1; i <= tamanho; i++) {
             String nome = String.format("Usuário %d", i);
             String email = String.format("usuario%d@email.com", i);
             tuiterLite.cadastrarUsuario(nome, email);
@@ -196,7 +206,7 @@ public class TuiterLiteTest {
 
         // agora vamos tentar fazer um número grande de tuítes com usuário desconhecido
         Usuario usuarioNaoCadastrado = new Usuario("Usuário Desconhedido", "unknown@void.com");
-        for (int i = 1; i <= 30; i++) {
+        for (int i = 1; i <= tamanho; i++) {
             assertNull(tuiterLite.tuitarAlgo(usuarioNaoCadastrado, "Teste"));
         }
 

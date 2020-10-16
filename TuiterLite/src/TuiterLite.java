@@ -1,6 +1,4 @@
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
+import java.util.*;
 
 /**
  *  Esta classe implementa um sistema de mensagens curtas estilo Twitter.
@@ -15,13 +13,15 @@ public class TuiterLite<T> {
 
     public static final int TAMANHO_MAXIMO_TUITES = 120;
 
-    private List<Usuario> usuarios;  // transformar em um Map<String, Usuario> usuarioByEmail;
+    private Map<String, Usuario> usuarioByEmail;
 
-    private List<HashtagComContador> hashtags;  // transformar em um Map<String, Integer> contByHashtag;
+    private Map<String, Integer> contByHashtag;
+    private String hashtagMaisComum;
+    private int contOcorrenciasHashtagMaisComum;
 
     public TuiterLite() {
-        this.usuarios = new ArrayList<>();
-        this.hashtags = new ArrayList<>();
+        this.usuarioByEmail = new HashMap<>();
+        this.contByHashtag = new HashMap<>();
     }
 
     /**
@@ -34,11 +34,11 @@ public class TuiterLite<T> {
     public Usuario cadastrarUsuario(String nome, String email) {
         Usuario novoUsuario = new Usuario(nome, email);
 
-        if (this.usuarios.contains(novoUsuario)) {
+        if (this.usuarioByEmail.containsKey(email)) {
             return null;
         }
 
-        this.usuarios.add(novoUsuario);
+        this.usuarioByEmail.put(email, novoUsuario);
 
         return novoUsuario;
     }
@@ -58,20 +58,22 @@ public class TuiterLite<T> {
             return null;
         }
 
-        if (!this.usuarios.contains(usuario)) {
-            return null;
+        Usuario usuarioExistente = this.usuarioByEmail.get(usuario.getEmail());
+        // verifica se o usuário é conhecido
+        if (usuarioExistente == null) {
+            return null;  // ToDo lançar uma exceção
         }
 
         Tuite tuite = new Tuite(usuario, texto);
 
         Collection<String> hashtagsDoTuite = tuite.getHashtags();
+
         for (String hashtag : hashtagsDoTuite) {
-            HashtagComContador hashtagComContador = localizarHashtagComContador(hashtag);
-            if (hashtagComContador != null) {
-                hashtagComContador.cont++;
-            } else {
-                hashtagComContador = new HashtagComContador(hashtag, 1);
-                this.hashtags.add(hashtagComContador);
+            int cont = localizarOcorrenciasAnteriores(hashtag);
+            this.contByHashtag.put(hashtag, ++cont);
+            if (cont > this.contOcorrenciasHashtagMaisComum) {
+                this.hashtagMaisComum = hashtag;
+                this.contOcorrenciasHashtagMaisComum = cont;
             }
         }
 
@@ -85,33 +87,19 @@ public class TuiterLite<T> {
      * @return A hashtag mais comum, ou null se nunca uma hashtag houver sido tuitada.
      */
     public String getHashtagMaisComum() {
-        int maxCont = 0;
-        String result = null;
-        for (HashtagComContador hashtagComContador : this.hashtags) {
-            if (hashtagComContador.cont > maxCont) {
-                maxCont = hashtagComContador.cont;
-                result = hashtagComContador.hashtag;
-            }
-        }
-        return result;
+        return this.hashtagMaisComum;
     }
 
-    private HashtagComContador localizarHashtagComContador(String hashtag) {
-        for (HashtagComContador hashtagComContador : this.hashtags) {
-            if (hashtagComContador.hashtag.equals(hashtag)) {
-                return hashtagComContador;
-            }
-        }
-        return null;
-    }
+    private int localizarOcorrenciasAnteriores(String hashtag) {
+        Integer resultado = this.contByHashtag.get(hashtag);
+        return resultado == null ? 0 : resultado;
 
-    private class HashtagComContador {
-        final String hashtag;
-        int cont;
-        HashtagComContador(String hashtag, int cont) {
-            this.hashtag = hashtag;
-            this.cont = cont;
-        }
+//        // outro jeito
+//        if (this.contByHashtag.containsKey(hashtag)) {
+//            return this.contByHashtag.get(hashtag);
+//        }
+//
+//        return 0;
     }
 
     // Mainzinho bobo, apenas ilustrando String.split(regexp), e o String.startsWith()
