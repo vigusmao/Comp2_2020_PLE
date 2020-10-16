@@ -3,8 +3,8 @@
 
 2- Lançar as checked exceptions do item anterior nos momentos oportunos.
 
-3- Fazer com que os chamados do método tuitarAlgo() do objeto TuiterLite tratem de alguma maneira
-   essas exceções que possivelmente receberão.
+3- Fazer com que os chamadores do método tuitarAlgo() do objeto TuiterLite tratem de
+   alguma maneira essas exceções que possivelmente receberão.
 
 4- Crie testes que verifiquem que essas execeções estarão de fato sendo lançadas quendo esperamos
    que elas sejam, ou seja, naquelas "situações excepcionais" (que não são bug do sistema,
