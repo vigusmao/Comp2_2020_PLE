@@ -1,6 +1,6 @@
 import java.util.ArrayList;
 
-public class Album {
+public class AlbumFigurinhas {
 
     public static final float PREENCHIMENTO_MINIMO_PARA_PERMITIR_AUTO_COMPLETAR = 0.9f;  // 90%
 
@@ -17,7 +17,7 @@ public class Album {
     private ArrayList<Figurinha> figurinhasRepetidas;
 
 
-    public Album(int totalFigurinhas, int quantFigurinhasPorPacotinho) {
+    public AlbumFigurinhas(int totalFigurinhas, int quantFigurinhasPorPacotinho) {
         this.totalFigurinhasDoAlbumCompleto = totalFigurinhas;
         this.quantFigurinhasPorPacotinho = quantFigurinhasPorPacotinho;
         this.totalPacotinhosRecebidos = 0;
@@ -63,7 +63,7 @@ public class Album {
 
     /**
      * Termina de preencher o álbum, desde que ele já esteja preenchido além de certa fração
-     * mínima definida em Album.PREENCHIMENTO_MINIMO_PARA_PERMITIR_AUTO_COMPLETAR.
+     * mínima definida em AlbumFigurinhas.PREENCHIMENTO_MINIMO_PARA_PERMITIR_AUTO_COMPLETAR.
      *
      * Se o álbum não estiver ainda completo o suficiente para isso, este método simplesmente
      * não faz nada.
@@ -78,7 +78,8 @@ public class Album {
 
         for (int i = 1; i <= this.totalFigurinhasDoAlbumCompleto; i++) {
             if (!possuiFigurinhaColada(i)) {
-                Figurinha figurinha = Figurinha.criarFigurinhaComUrlFake(i);
+                Figurinha figurinha = new Figurinha();
+                figurinha.setPosicao(i);
                 colarFigurinha(figurinha);
             }
         }
@@ -108,6 +109,13 @@ public class Album {
 
     public boolean possuiFigurinhaRepetida(Figurinha figurinha) {  // overload
         return possuiFigurinhaRepetida(figurinha.getPosicao());
+    }
+
+    public Figurinha getFigurinha(int posicao) {
+        if (possuiFigurinhaColada(posicao)) {
+            return this.figurinhasColadas.get(posicao);
+        }
+        return null;
     }
 
     public int getQuantFigurinhasColadas() {

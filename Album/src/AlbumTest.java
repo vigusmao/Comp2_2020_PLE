@@ -1,24 +1,21 @@
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 
 import java.util.Random;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 public class AlbumTest {
 
     private Random random = new Random();
 
-    private Album album;
+    private AlbumFigurinhas album;
     private final int TOTAL_FIGURINHAS = 200;
     private final int QUANT_FIGURINHAS_POR_PACOTE = 3;
 
     @Before
     public void setUp() {
-        album = new Album(TOTAL_FIGURINHAS, QUANT_FIGURINHAS_POR_PACOTE);
+        album = new AlbumFigurinhas(TOTAL_FIGURINHAS, QUANT_FIGURINHAS_POR_PACOTE);
     }
 
     @Test
@@ -59,7 +56,9 @@ public class AlbumTest {
         assertEquals(QUANT_FIGURINHAS_POR_PACOTE - 1, album.getQuantFigurinhasRepetidas());
         assertTrue(album.possuiFigurinhaRepetida(1));
         assertTrue(album.possuiFigurinhaRepetida(primeiroPacotinho[0]));  // outra forma
-        assertTrue(album.possuiFigurinhaRepetida(new Figurinha(1, "dskdfsk")));  // outra forma
+        Figurinha selo = new Figurinha();
+        selo.setPosicao(1);
+        assertTrue(album.possuiFigurinhaRepetida(selo));  // outra forma
 
 
         posicoes = new int[] {10, 23, 1};
@@ -80,12 +79,12 @@ public class AlbumTest {
     public void testarPreenchimentoAutomaticoDasUltimasFigurinhas() {
         // aqui o álbum está ainda vazio
         album.encomendarFigurinhasRestantes();
-        assertEquals("Não deve ser possível encomendar as figurinhas faltantes " +
+        assertEquals("Não deve ser possível encomendar as selos faltantes " +
                 "antes de ter 90% ou mais do álbum já preenchido",
                 0, album.getQuantFigurinhasColadas());
 
         // vamos agora preencher o álbum quase totalmente
-        float limiteMinimo = TOTAL_FIGURINHAS * Album.PREENCHIMENTO_MINIMO_PARA_PERMITIR_AUTO_COMPLETAR;
+        float limiteMinimo = TOTAL_FIGURINHAS * AlbumFigurinhas.PREENCHIMENTO_MINIMO_PARA_PERMITIR_AUTO_COMPLETAR;
         while (album.getQuantFigurinhasColadas() < limiteMinimo) {
             Figurinha[] pacotinho = criarPacotinho(null);
             album.receberNovoPacotinho(pacotinho);
@@ -105,6 +104,23 @@ public class AlbumTest {
         assertEquals(0, album.getQuantFigurinhasRepetidas());
     }
 
+    @Test
+    public void testarGetFigurinha() {
+        int[] posicoes = new int[] {10, 12, 14};
+        Figurinha[] primeiroPacotinho = criarPacotinho(posicoes);
+        album.receberNovoPacotinho(primeiroPacotinho);
+
+        Figurinha selo;
+
+        for (int posicao : posicoes) {
+            selo = album.getFigurinha(posicao);
+            assertEquals(posicao, selo.getPosicao());
+        }
+
+        selo = album.getFigurinha(33);
+        assertNull(selo);
+    }
+
     private Figurinha[] criarPacotinho(int[] posicoesDesejadas) {
         int tamanhoPacotinho = posicoesDesejadas == null ?
                 QUANT_FIGURINHAS_POR_PACOTE :
@@ -114,8 +130,9 @@ public class AlbumTest {
         for (int i = 0; i < tamanhoPacotinho; i++) {
             int posicaoDaFigurinha = posicoesDesejadas == null ? escolherPosicaoAleatoria() :
                     posicoesDesejadas[i];
-            Figurinha figurinha = Figurinha.criarFigurinhaComUrlFake(posicaoDaFigurinha);
-            novoPacotinho[i] = figurinha;
+            Figurinha selo = new Figurinha();
+            selo.setPosicao(posicaoDaFigurinha);
+            novoPacotinho[i] = selo;
         }
         return novoPacotinho;
     }

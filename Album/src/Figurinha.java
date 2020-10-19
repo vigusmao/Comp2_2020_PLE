@@ -3,6 +3,10 @@ public class Figurinha {
     private int posicao;
     private String urlImagem;
 
+    public Figurinha() {
+
+    }
+
     public Figurinha(int posicao, String urlImagem) {
         this.posicao = posicao;
         this.urlImagem = urlImagem;
@@ -15,6 +19,10 @@ public class Figurinha {
      */
     public int getPosicao() {
         return posicao;
+    }
+
+    public void setPosicao(int posicao) {
+        this.posicao = posicao;
     }
 
     /**
