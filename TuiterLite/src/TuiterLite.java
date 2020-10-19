@@ -45,8 +45,8 @@ public class TuiterLite<T> {
 
     /**
      * Tuíta algo, retornando o objeto Tuíte criado.
-     * Se o tamanho do texto exceder o limite pré-definido, não faz nada e retorna null.
-     * Se o usuário não estiver cadastrado, não faz nada e retorna null.
+     * Se o tamanho do texto exceder o limite pré-definido, lança exceção.
+     * Se o usuário não estiver cadastrado, lança exceção.
      *
      * @param usuario O autor do tuíte
      * @param texto O texto desejado
@@ -55,7 +55,7 @@ public class TuiterLite<T> {
     public Tuite tuitarAlgo(Usuario usuario, String texto) {
 
         if (texto.length() > TAMANHO_MAXIMO_TUITES) {
-            return null;
+            return null;  // ToDo lançar uma exceção
         }
 
         Usuario usuarioExistente = this.usuarioByEmail.get(usuario.getEmail());
@@ -104,33 +104,39 @@ public class TuiterLite<T> {
 
     // Mainzinho bobo, apenas ilustrando String.split(regexp), e o String.startsWith()
 
+
+    private static int encontrarMaior(List<Integer> lista) {
+        return Collections.max(lista);
+
+//        int maior = Integer.MIN_VALUE;
+//        for (int elemento : lista) {
+//            if (elemento > maior) {
+//                maior = elemento;
+//            }
+//        }
+//
+//        return maior;
+    }
+
+
+
     public static void main(String[] args) {
-        String frase = "Testando algo,sdf com #hashtags no meio #teste vamos ver!fdfgf";
-        String[] palavras = frase.split("[\\s,!]");
-        for (String palavra : palavras) {
-            if (palavra.startsWith("#")) {
-                System.out.println(palavra);
-            }
+
+        int tamanho = 500_000_000;
+        List<Integer> lista = new ArrayList<>(tamanho);
+
+        Random random = new Random();
+
+        for (int i = 0; i < tamanho; i++) {
+            lista.add(random.nextInt());
         }
 
-        // Ilustrando o uso de um StringBuilder (ou StringBuffer)
-        StringBuffer sb = new StringBuffer();
-        sb.append("Oi,");
-        sb.append(" tudo bem?");
-        sb.append("0").append("1").append(2).append("3");
-        String resultadoDasConcatenacoes = sb.toString();
-        System.out.println(resultadoDasConcatenacoes);
+        System.out.println("Encontrando o maior...");
+        long inicio = System.currentTimeMillis();
+        int maior = encontrarMaior(lista);
+        long duracao = System.currentTimeMillis() - inicio;
+        System.out.printf("\nmaior = %d (duracao = %d milissegundos)", maior, duracao);
 
-        /* equivalentemente (mas bem menos performático,
-              porque cria novas Strings a cada concatenação) */
-        String minhaString;
-        minhaString = "Oi,";
-        minhaString += " tudo bem?";
-        minhaString += "0";
-        minhaString += "1";
-        minhaString += "2";
-        minhaString += "3";
-        System.out.println(minhaString);
 
     }
 }

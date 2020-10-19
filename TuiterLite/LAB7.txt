@@ -10,3 +10,4 @@
    que elas sejam, ou seja, naquelas "situações excepcionais" (que não são bug do sistema,
    mas apenas situações que vão acontecer ocasionalmente em virtude de mau uso por parte do
    usuário ou coisa assim).
+
