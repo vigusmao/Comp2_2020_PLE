@@ -9,25 +9,25 @@ public class AlbumTest {
 
     private Random random = new Random();
 
-    private Album album;
+    private Album<Figurinha> album;
     private final int TOTAL_FIGURINHAS = 200;
     private final int QUANT_FIGURINHAS_POR_PACOTE = 3;
 
     @Before
     public void setUp() {
-        album = new Album(TOTAL_FIGURINHAS, QUANT_FIGURINHAS_POR_PACOTE);
+        album = new Album<>(TOTAL_FIGURINHAS, QUANT_FIGURINHAS_POR_PACOTE);
     }
 
     @Test
     public void testarRecebimentoPacotinhoQualquer() {
-        Colecionavel[] novoPacotinho = criarPacotinhoSelos(null);  // posições aleatórias
+        Figurinha[] novoPacotinho = criarPacotinhoFigurinhas(null);  // posições aleatórias
 
         album.receberNovoPacotinho(novoPacotinho);
         assertEquals(1, album.getTotalItensRecebidos());
         assertEquals(QUANT_FIGURINHAS_POR_PACOTE,
                 album.getQuantItensColados() + album.getQuantItensRepetidos());
 
-        for (Colecionavel item : novoPacotinho) {
+        for (Figurinha item : novoPacotinho) {
             assertTrue(album.possuiItemColado(item));
         }
 
@@ -105,8 +105,8 @@ public class AlbumTest {
     }
 
     @Test
-    public void testarGetFigurinha() {
-        int[] posicoes = new int[] {10, 12, 14};
+    public void testarItensComTiposMisturados() {
+        int[] posicoes = new int[] {10, 12, 15};
         Figurinha[] primeiroPacotinho = criarPacotinhoFigurinhas(posicoes);
         album.receberNovoPacotinho(primeiroPacotinho);
 
@@ -119,6 +119,22 @@ public class AlbumTest {
 
         item = album.getItem(33);
         assertNull(item);
+    }
+
+    private Colecionavel[] criarPacotinhoComTiposMisturados(int[] posicoesDesejadas) {
+        int tamanhoPacotinho = posicoesDesejadas == null ?
+                QUANT_FIGURINHAS_POR_PACOTE :
+                posicoesDesejadas.length;
+
+        Colecionavel[] novoPacotinho = new Colecionavel[tamanhoPacotinho];
+        for (int i = 0; i < tamanhoPacotinho; i++) {
+            int posicaoDaFigurinha = posicoesDesejadas == null ? escolherPosicaoAleatoria() :
+                    posicoesDesejadas[i];
+            Colecionavel item = posicaoDaFigurinha % 2 == 0 ? new Figurinha() : new Selo();
+            item.setPosicao(posicaoDaFigurinha);
+            novoPacotinho[i] = item;
+        }
+        return novoPacotinho;
     }
 
     private Selo[] criarPacotinhoSelos(int[] posicoesDesejadas) {

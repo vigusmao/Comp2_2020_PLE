@@ -1,6 +1,6 @@
 import java.util.ArrayList;
 
-public class Album {
+public class Album<T extends Colecionavel> {
 
     public static final float PREENCHIMENTO_MINIMO_PARA_PERMITIR_AUTO_COMPLETAR = 0.9f;  // 90%
 
@@ -11,10 +11,10 @@ public class Album {
 
     // guardaremos os itens no álbum usando ENDEREÇAMENTO DIRETO, ou seja,
     // item de chave (no caso, a posição no álbum) x na posição x do array
-    private ArrayList<Colecionavel> itensColados;
+    private ArrayList<T> itensColados;
 
     // idem
-    private ArrayList<Colecionavel> itensRepetidos;
+    private ArrayList<T> itensRepetidos;
 
 
     public Album(int totalItens, int quantItensPorPacotinho) {
@@ -39,7 +39,7 @@ public class Album {
      *
      * @param pacotinho O pacotinho novo.
      */
-    public void receberNovoPacotinho(Colecionavel[] pacotinho) {
+    public void receberNovoPacotinho(T[] pacotinho) {
         if (pacotinho.length != this.quantItensPorPacotinho) {
             return;  // não faz nada!!!!
         }
@@ -47,7 +47,7 @@ public class Album {
         this.totalItensRecebidos++;
 
         for (int i = 0; i < pacotinho.length; i++) {
-            Colecionavel item = pacotinho[i];
+            T item = pacotinho[i];
             if (possuiItemColado(item)) {
                 // repetida! -- adiciono no bolinho de repetidas
                 this.itensRepetidos.add(item);
@@ -85,7 +85,7 @@ public class Album {
 //        }
 //    }
 
-    private void colarItem(Colecionavel item) {
+    private void colarItem(T item) {
         this.itensColados.set(item.getPosicao(), item);
         this.quantItensColados++;
     }
@@ -94,12 +94,12 @@ public class Album {
         return this.itensColados.get(posicao) != null;
     }
 
-    public boolean possuiItemColado(Colecionavel figurinha) {  // overload
+    public boolean possuiItemColado(T figurinha) {  // overload
         return possuiItemColado(figurinha.getPosicao());
     }
 
     public boolean possuiItemRepetido(int posicao) {
-        for (Colecionavel item : this.itensRepetidos) {
+        for (T item : this.itensRepetidos) {
             if (item.getPosicao() == posicao) {
                 return true;
             }
@@ -107,11 +107,11 @@ public class Album {
         return false;
     }
 
-    public boolean possuiItemRepetido(Colecionavel item) {  // overload
+    public boolean possuiItemRepetido(T item) {  // overload
         return possuiItemRepetido(item.getPosicao());
     }
 
-    public Colecionavel getItem(int posicao) {
+    public T getItem(int posicao) {
         if (possuiItemColado(posicao)) {
             return this.itensColados.get(posicao);
         }
