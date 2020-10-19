@@ -1,4 +1,4 @@
-public class Figurinha {
+public class Figurinha extends ItemPapelaria implements Colecionavel {
 
     private int posicao;
     private String urlImagem;

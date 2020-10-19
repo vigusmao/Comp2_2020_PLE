@@ -1,4 +1,4 @@
-public class Selo {
+public class Selo extends ArtigoNacional implements Colecionavel {
 
     private int posicao;
 

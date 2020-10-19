@@ -1,8 +1,8 @@
 public class Principal {
 
     public static void main(String[] args) {
-        AlbumFigurinhas album = new AlbumFigurinhas(100, 4);
+        Album album = new Album(100, 4);
 
-        Figurinha fig = album.getFigurinha(12);
+        Colecionavel fig = album.getItem(12);
     }
 }
