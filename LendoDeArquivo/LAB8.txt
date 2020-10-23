@@ -1,12 +1,11 @@
 Calculando a média da turma...
 
-(1) Peça para o usuário digitar o nome
-    do arquivo com as notas.
+(1) Crie um função float calcularMedia(String nomeDoArquivo), que...
 
-(2) Abra o arquivo com o nome dado.
+(2) Abre o arquivo com o nome dado.
 
-(3) Se o arquivo não existir, diga para o usuário
-    que o nome não existe e volte ao passo (1).
+(3) Se o arquivo não existir, lança uma exceção FileNotFoundException.
+    Se existir, abre o arquivo e...
 
 (4) Para cada linha do arquivo, leia a nota como float.
 
@@ -16,9 +15,17 @@ Calculando a média da turma...
 (6) Ao final do arquivo de notas, retorne a média das notas
     lidas, se a quantidade de linhas inválidas for
     menor ou igual à quantidade de notas válidas.
-    Caso contrário, lance uma ArquivoCorrompidoException.
+    Caso contrário, lance uma ArquivoCorrompidoException (checked exception nova,
+    que guardará com ela o número de linhas corrompidas do arquivo).
 
-(7) No main(), se a média foi retornada corretamente,
+(7) No main(), peça para o usuário digitar o nome do arquivo.
+
+(8) Chame a função calcularMedia, passando o nome do arquivo digitado.
+
+(9) Se uma exeção FileNotFoundException for capturada, explique para o usuário
+    que aquele arquivo não foi encontrado, e volte ao passo 7.
+
+(10) Se a média foi retornada corretamente,
     imprima essa média. Caso contrário, imprima
     a quantidade de linhas inválidas informada pela
     ArquivoCorrompidoException.
