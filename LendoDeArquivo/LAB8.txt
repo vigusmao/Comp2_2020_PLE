@@ -1,0 +1,24 @@
+Calculando a média da turma...
+
+(1) Peça para o usuário digitar o nome
+    do arquivo com as notas.
+
+(2) Abra o arquivo com o nome dado.
+
+(3) Se o arquivo não existir, diga para o usuário
+    que o nome não existe e volte ao passo (1).
+
+(4) Para cada linha do arquivo, leia a nota como float.
+
+(5) Se a linha não for um float válido, pule aquela linha,
+    incrementando um contador de linhas inválidas.
+
+(6) Ao final do arquivo de notas, retorne a média das notas
+    lidas, se a quantidade de linhas inválidas for
+    menor ou igual à quantidade de notas válidas.
+    Caso contrário, lance uma ArquivoCorrompidoException.
+
+(7) No main(), se a média foi retornada corretamente,
+    imprima essa média. Caso contrário, imprima
+    a quantidade de linhas inválidas informada pela
+    ArquivoCorrompidoException.
