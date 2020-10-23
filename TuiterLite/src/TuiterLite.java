@@ -50,12 +50,15 @@ public class TuiterLite<T> {
      *
      * @param usuario O autor do tuíte
      * @param texto O texto desejado
+     *
      * @return Um "tuíte", que será devidamente publicado no sistema
+     *
+     * @throws TamanhoMaximoExcedidoException se o texto for maior do que o limite permitido
      */
-    public Tuite tuitarAlgo(Usuario usuario, String texto) {
+    public Tuite tuitarAlgo(Usuario usuario, String texto) throws TamanhoMaximoExcedidoException {
 
         if (texto.length() > TAMANHO_MAXIMO_TUITES) {
-            return null;  // ToDo lançar uma exceção
+            throw new TamanhoMaximoExcedidoException();
         }
 
         Usuario usuarioExistente = this.usuarioByEmail.get(usuario.getEmail());

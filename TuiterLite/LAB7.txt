@@ -6,7 +6,7 @@
 3- Fazer com que os chamadores do método tuitarAlgo() do objeto TuiterLite tratem de
    alguma maneira essas exceções que possivelmente receberão.
 
-4- Crie testes que verifiquem que essas execeções estarão de fato sendo lançadas quendo esperamos
+4- Crie testes que verifiquem que essas exceções estarão de fato sendo lançadas quendo esperamos
    que elas sejam, ou seja, naquelas "situações excepcionais" (que não são bug do sistema,
    mas apenas situações que vão acontecer ocasionalmente em virtude de mau uso por parte do
    usuário ou coisa assim).

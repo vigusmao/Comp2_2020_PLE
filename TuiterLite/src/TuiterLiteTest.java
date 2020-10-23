@@ -31,14 +31,14 @@ public class TuiterLiteTest {
     }
 
     @Test
-    public void testeAutorDoTuite() {
+    public void testeAutorDoTuite() throws TamanhoMaximoExcedidoException {
         Tuite tuite = tuiterLite.tuitarAlgo(usuario, "Testando");
         assertEquals("O tuíte deve retornar corretamente seu autor",
                 usuario, tuite.getAutor());
     }
 
     @Test
-    public void testeTuiteDeUsuarioDesconhecido() {
+    public void testeTuiteDeUsuarioDesconhecido() throws TamanhoMaximoExcedidoException {
         assertNull("Não deve ser possível tuitar algo se o usuário é desconhecido",
                 tuiterLite.tuitarAlgo(
                         new Usuario("Usuário Desconhedido", "unknown@void.com"),
@@ -46,9 +46,17 @@ public class TuiterLiteTest {
     }
 
     @Test
-    public void testeTamanhoTuite() {
-        assertNotNull(tuiterLite.tuitarAlgo(usuario, "Teste curto"));
+    public void testeTuiteComTamanhoAceitavel() {
+        // testa tuíte pequeno
+        try {
+            assertNotNull(tuiterLite.tuitarAlgo(usuario, "Teste curto"));
+        } catch (TamanhoMaximoExcedidoException e) {
+            fail("Tuítes com tamanho dentro do limite devem ser feitos com sucesso");
+        }
+    }
 
+    @Test
+    public void testeTuiteComTamanhoGrandeDemais() {
         // testaremos para 100 tamanhos diferentes, todos maiores do que o máximo permitido
         for (int excessoCaracteres = 1; excessoCaracteres <= 100; excessoCaracteres++) {
 
@@ -60,14 +68,20 @@ public class TuiterLiteTest {
             }
             String texto = sb.toString();
 
-            assertNull("Um tuite maior do que o tamanho máximo deve ser ignorado",
-                    tuiterLite.tuitarAlgo(usuario, texto));
+            try {
+                // tuita algo muito grande...
+                tuiterLite.tuitarAlgo(usuario, texto);
+                fail("Uma exceção deve ser lançada se tentarmos tuitar algo grande demais!!!");
+            } catch (TamanhoMaximoExcedidoException e) {
+                // ...portanto, o ESPERADO é que essa exceção seja lançada!!!!!
+                // cante uma bela canção!!! tudo ok!!!!
+            }
         }
     }
 
     @Test
     @SuppressWarnings("unchecked")
-    public void testeAnexo() {
+    public void testeAnexo() throws TamanhoMaximoExcedidoException {
 
         Tuite tuite = tuiterLite.tuitarAlgo(usuario, "Testando");
 
@@ -84,7 +98,7 @@ public class TuiterLiteTest {
     }
 
     @Test
-    public void testeApenasUmTipoPermitidoComoAnexo() {
+    public void testeApenasUmTipoPermitidoComoAnexo() throws TamanhoMaximoExcedidoException {
 
         // vamos criar um outro TuiterLite aqui, especificando que ele deverá se relacionar com o tipo Image
         TuiterLite<Image> tuiterLiteQueAceitaApenasImagensComoAnexo = new TuiterLite<>();
@@ -104,7 +118,7 @@ public class TuiterLiteTest {
     }
 
     @Test
-    public void testeHashtags() {
+    public void testeHashtags() throws TamanhoMaximoExcedidoException {
 
         Tuite tuite = tuiterLite.tuitarAlgo(usuario, "#LAB5 Testando algo com #hashtag ao longo... #teste");
 
@@ -129,7 +143,7 @@ public class TuiterLiteTest {
     }
 
     @Test
-    public void testeTipoUsuario() {
+    public void testeTipoUsuario() throws TamanhoMaximoExcedidoException {
         // sanity check
         assertEquals("Um usuário sem nenhum tuite deve estar no nível INICIANTE",
                 NivelUsuario.INICIANTE, usuario.getNivel());
@@ -167,7 +181,7 @@ public class TuiterLiteTest {
     /////   ATENÇÃO: Este teste deve rodar rapidamente (poucos segundos)
     /////
     @Test
-    public void testePerformanceContabilizacaoDasHashtags() {
+    public void testePerformanceContabilizacaoDasHashtags() throws TamanhoMaximoExcedidoException {
 
         int tamanho = 32000;
 
@@ -192,7 +206,7 @@ public class TuiterLiteTest {
     /////   ATENÇÃO: Este teste deve rodar rapidamente (poucos segundos)
     /////
     @Test
-    public void testePerformanceTuites() {
+    public void testePerformanceTuites() throws TamanhoMaximoExcedidoException {
         int tamanho = 32000;
 
         long inicio = System.currentTimeMillis();

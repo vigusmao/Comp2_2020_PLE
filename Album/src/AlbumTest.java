@@ -110,6 +110,8 @@ public class AlbumTest {
         Figurinha[] primeiroPacotinho = criarPacotinhoFigurinhas(posicoes);
         album.receberNovoPacotinho(primeiroPacotinho);
 
+        // sdflksdlkdsj
+
         Colecionavel item;
 
         for (int posicao : posicoes) {
