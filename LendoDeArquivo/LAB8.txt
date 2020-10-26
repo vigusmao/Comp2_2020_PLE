@@ -29,3 +29,24 @@ Calculando a média da turma...
     imprima essa média. Caso contrário, imprima
     a quantidade de linhas inválidas informada pela
     ArquivoCorrompidoException.
+
+
+PS.: Para testar, crie um arquivo notas.txt com algumas notas e veja o que acontece.
+     Você colocar também algumas linhas que não sejam floats parseáveis (sdjkfsdkjhdfjk), etc.
+
+
+OPCIONAL:
+
+    Ao invés de ter uma nota por linha, coloque em cada linha o DRE e a nota separados por espaço.
+    Ou seja, a cada linha, você vai ler uma String e vai depois splitar essa String em dois tokens:
+       o primeiro você parseará como Long e o segundo como Float.
+    O método calcular média retona um objeto ResultadosTurma que tenha os atributos
+        - float mediaDaTurma
+        - int quantAlunosAprovados (media >= 5.0)
+        - int quantAlunosReprovados
+        - long dreDoAlunoDeMaiorMedia (se houver empate, quebre arbitrariamente)
+
+
+
+
+

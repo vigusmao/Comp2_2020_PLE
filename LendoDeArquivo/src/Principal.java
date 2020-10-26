@@ -1,40 +1,118 @@
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.util.InputMismatchException;
-import java.util.NoSuchElementException;
 import java.util.Scanner;
 
 public class Principal {
 
+    private static final int NOTA_MINIMA_APROVACAO = 5;
+
+    public static ResultadosTurma calcularMedia(String pathDoArquivo)
+            throws FileNotFoundException, ArquivoCorrompidoException {
+
+        File arquivo = new File(pathDoArquivo);
+
+        int quantLinhasValidas = 0;
+        int quantLinhasInvalidas = 0;
+        float numerador = 0;
+        float maiorNotaAteAqui = Float.MIN_VALUE;
+
+        Scanner scanner = new Scanner(arquivo);
+
+        ResultadosTurma resultados = new ResultadosTurma();
+
+        while (scanner.hasNext()) {
+
+            try {
+                String linha = scanner.nextLine();
+
+                String[] dreENota = linha.split(" ");
+                long dre = Long.parseLong(dreENota[0]);
+                float nota = Float.parseFloat(dreENota[1].replace(',', '.'));
+
+                // Scanner.nextFloat() funciona com o separador decimal
+                // definido pelo sistema operacional
+
+//                float nota = Float.parseFloat(scanner.nextLine());
+//      ou....    float nota = Float.valueOf(scanner.nextLine());
+                // parseFloat() e valueOf() só funcionam com ponto
+                // (representação interna do Java)
+
+
+                quantLinhasValidas++;
+                numerador += nota;
+
+                if (nota >= NOTA_MINIMA_APROVACAO) {
+                    resultados.quantAlunosAprovados++;
+                } else {
+                    resultados.quantAlunosReprovados++;
+                }
+
+                if (nota > maiorNotaAteAqui) {
+                    maiorNotaAteAqui = nota;
+                    resultados.dreDoAlunoDeMaiorMedia = dre;
+                }
+
+            } catch (Exception e) {
+                quantLinhasInvalidas++;
+            }
+        }
+
+        if (quantLinhasInvalidas > quantLinhasValidas) {
+            throw new ArquivoCorrompidoException(quantLinhasInvalidas);
+        }
+
+        if (quantLinhasValidas == 0) {
+            throw new ArquivoCorrompidoException(0);
+        }
+
+        resultados.mediaDaTurma = numerador / quantLinhasValidas;
+
+        return resultados;
+    }
 
     public static void main(String[] args) {
 
-        /* ATENÇÃO:  Este main() serve apenas para ilustrar o uso do Scanner apontando para
-                     um arquivo de entrada. Ele não é o main() que vc precisa escrever
-                     para resolver o exercíciodo LAB 8 descrito em LAB8.txt */
+        Scanner scanner = new Scanner(System.in);
 
+        boolean finalizado = false;
 
+        while (!finalizado) {
+            System.out.printf("\nDigite o nome do arquivo: ");
+            String nomeArquivo = scanner.nextLine();
 
-//        Scanner scanner = new Scanner(System.in);  para ler do standard in (teclado)
+            try {
+                ResultadosTurma resultados = calcularMedia(nomeArquivo);
+                System.out.println(resultados);
+                finalizado = true;
 
+            } catch (FileNotFoundException e) {
+                System.out.println("Arquivo não encontrado!\n");
 
-        File arquivo = new File("LAB8.txt");
-
-        Scanner scanner = null;
-
-        try {
-            scanner = new Scanner(arquivo);
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
+            } catch (ArquivoCorrompidoException e) {
+                System.out.printf("\nArquivo corrompido com %d linhas inválidas.",
+                        e.getQuantLinhasInvalidas());
+                finalizado = true;
+            }
         }
+    }
 
-        while (scanner.hasNext()) {
-            System.out.println(scanner.nextLine());
-//            try {
-//                scanner.nextFloat();
-//            } catch (Exception e) {
-//
-//            }
+    private static class ResultadosTurma {
+        float mediaDaTurma;
+        int quantAlunosAprovados;
+        int quantAlunosReprovados;
+        long dreDoAlunoDeMaiorMedia;
+
+        @Override
+        public String toString() {
+            return String.format(
+                            "Média da turma: %.1f\n" +
+                            "Alunos aprovados: %d\n" +
+                            "Alunos reprovados: %d\n" +
+                            "DRE do aluno de maior nota: %d\n",
+                    mediaDaTurma,
+                    quantAlunosAprovados,
+                    quantAlunosReprovados,
+                    dreDoAlunoDeMaiorMedia);
         }
     }
 }
