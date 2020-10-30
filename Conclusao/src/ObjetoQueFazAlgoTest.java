@@ -1,13 +1,15 @@
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.Mockito;
 
 import static org.junit.Assert.*;
+import static org.mockito.Mockito.when;
 
 public class ObjetoQueFazAlgoTest {
 
     private ObjetoQueFazAlgo meuObjetoASerTestado;
 
-    private ObjetoAuxiliarMock objetoAuxiliarMock;
+    private ObjetoAuxiliar objetoAuxiliarMock;
 
     @Before
     public void setUp() {
@@ -21,16 +23,16 @@ public class ObjetoQueFazAlgoTest {
 
            Para isso, vamos usar um mock para o ObjetoAuxiliar
          */
-        objetoAuxiliarMock = new ObjetoAuxiliarMock();
+        objetoAuxiliarMock = Mockito.mock(ObjetoAuxiliar.class);  // new ObjetoAuxiliar();
         meuObjetoASerTestado.setOutroObjeto(objetoAuxiliarMock);
     }
 
     @Test
     public void testarFuncionamentoDoFacaAlgoAssumindoValorPequenoVindoDoMetodoAuxiliar()
-            throws MinhaExcecao, DataInvalidaException, OutraExcecaoQualquer {
+            throws MinhaExcecao, DataInvalidaException, OutraExcecaoQualquer, ExcecaoEspecifica {
 
         // primeiro teste, assumindo valor de retorno 5 para aqueeeeele método lento auxiliar
-        objetoAuxiliarMock.setValorDeRetornoEspecificadoNaHoraPeloTeste(5);
+        when(objetoAuxiliarMock.facaAlgoImportanteParaAMinhaTarefa()).thenReturn(5);
 
         int resultado = meuObjetoASerTestado.facaAlgo(10, "blablabla");
         assertEquals(512, resultado);
@@ -41,10 +43,10 @@ public class ObjetoQueFazAlgoTest {
 
     @Test
     public void testarFuncionamentoDoFacaAlgoAssumindoValorGrandeVindoDoMetodoAuxiliar()
-            throws MinhaExcecao, DataInvalidaException, OutraExcecaoQualquer {
+            throws MinhaExcecao, DataInvalidaException, OutraExcecaoQualquer, ExcecaoEspecifica {
 
-        // primeiro teste, assumindo valor de retorno 5 para aqueeeeele método lento auxiliar
-        objetoAuxiliarMock.setValorDeRetornoEspecificadoNaHoraPeloTeste(50000);
+        // segundo teste, assumindo valor de retorno 5 para aqueeeeele método lento auxiliar
+        when(objetoAuxiliarMock.facaAlgoImportanteParaAMinhaTarefa()).thenReturn(50000);
 
         int resultado = meuObjetoASerTestado.facaAlgo(10, "blablabla");
         assertEquals(501, resultado);
@@ -52,21 +54,4 @@ public class ObjetoQueFazAlgoTest {
         resultado = meuObjetoASerTestado.facaAlgo(-599, "dslkfjsdfk");
         assertEquals(501, resultado);
     }
-
-    private class ObjetoAuxiliarMock extends ObjetoAuxiliar {
-
-        int valorDeRetornoEspecificadoNaHoraPeloTeste;
-
-        @Override
-        public int facaAlgoImportanteParaAMinhaTarefa()
-                throws ExcecaoEspecifica, OutraExcecaoQualquer, MinhaExcecao {
-
-            return valorDeRetornoEspecificadoNaHoraPeloTeste;
-        }
-
-        void setValorDeRetornoEspecificadoNaHoraPeloTeste(int valor) {
-            valorDeRetornoEspecificadoNaHoraPeloTeste = valor;
-        }
-    }
-
 }
