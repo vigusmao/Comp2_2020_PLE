@@ -125,20 +125,26 @@ public class TuiterLite<T> {
 
     public static void main(String[] args) {
 
-        int tamanho = 500_000_000;
-        List<Integer> lista = new ArrayList<>(tamanho);
+        Dinheiro dinheiro = Dinheiro.getDinheiroByValorMonetario(6);
 
-        Random random = new Random();
+        System.out.println(dinheiro);
 
-        for (int i = 0; i < tamanho; i++) {
-            lista.add(random.nextInt());
-        }
+        System.out.println(Dinheiro.MOEDA_DE_DEZ_CENTAVOS.getValorMonetario());
 
-        System.out.println("Encontrando o maior...");
-        long inicio = System.currentTimeMillis();
-        int maior = encontrarMaior(lista);
-        long duracao = System.currentTimeMillis() - inicio;
-        System.out.printf("\nmaior = %d (duracao = %d milissegundos)", maior, duracao);
+//        int tamanho = 500_000_000;
+//        List<Integer> lista = new ArrayList<>(tamanho);
+//
+//        Random random = new Random();
+//
+//        for (int i = 0; i < tamanho; i++) {
+//            lista.add(random.nextInt());
+//        }
+//
+//        System.out.println("Encontrando o maior...");
+//        long inicio = System.currentTimeMillis();
+//        int maior = encontrarMaior(lista);
+//        long duracao = System.currentTimeMillis() - inicio;
+//        System.out.printf("\nmaior = %d (duracao = %d milissegundos)", maior, duracao);
 
 
     }

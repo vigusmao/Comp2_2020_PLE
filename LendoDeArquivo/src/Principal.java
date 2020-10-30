@@ -95,24 +95,4 @@ public class Principal {
             }
         }
     }
-
-    private static class ResultadosTurma {
-        float mediaDaTurma;
-        int quantAlunosAprovados;
-        int quantAlunosReprovados;
-        long dreDoAlunoDeMaiorMedia;
-
-        @Override
-        public String toString() {
-            return String.format(
-                            "Média da turma: %.1f\n" +
-                            "Alunos aprovados: %d\n" +
-                            "Alunos reprovados: %d\n" +
-                            "DRE do aluno de maior nota: %d\n",
-                    mediaDaTurma,
-                    quantAlunosAprovados,
-                    quantAlunosReprovados,
-                    dreDoAlunoDeMaiorMedia);
-        }
-    }
 }

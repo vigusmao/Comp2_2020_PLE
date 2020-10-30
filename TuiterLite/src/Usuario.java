@@ -3,9 +3,6 @@ import java.util.Objects;
 
 public class Usuario {
 
-    public static final int MIN_TUITES_SENIOR = 200;
-    public static final int MIN_TUITES_NINJA = 1000;
-
     private final String email;
     private String nome;
     private Image foto;
@@ -47,9 +44,9 @@ public class Usuario {
     }
 
     private void atualizarNivel() {
-        if (this.contTuites >= MIN_TUITES_NINJA) {
+        if (this.contTuites >= NivelUsuario.NINJA.getMinTuites()) {
             this.nivel = NivelUsuario.NINJA;
-        } else if (this.contTuites >= MIN_TUITES_SENIOR) {
+        } else if (this.contTuites >= NivelUsuario.SENIOR.getMinTuites()) {
             this.nivel = NivelUsuario.SENIOR;
         } else {
             this.nivel = NivelUsuario.INICIANTE;

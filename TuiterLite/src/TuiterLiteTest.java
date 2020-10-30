@@ -149,13 +149,13 @@ public class TuiterLiteTest {
                 NivelUsuario.INICIANTE, usuario.getNivel());
 
         // vamos tuitar várias vezes com o mesmo usuário, mas não ainda a ponto de promovê-lo ao próximo nível
-        for (int i = 1; i < Usuario.MIN_TUITES_SENIOR; i++) {
+        for (int i = 1; i < NivelUsuario.SENIOR.getMinTuites(); i++) {
             tuiterLite.tuitarAlgo(usuario, "Oi!");
         }
 
         // vamos verificar que o usuário ainda é INICIANTE
         assertEquals("Um usuário não pode ser promovido antes de ter feito" +
-                        Usuario.MIN_TUITES_SENIOR + " tuítes",
+                        NivelUsuario.SENIOR.getMinTuites() + " tuítes",
                 NivelUsuario.INICIANTE, usuario.getNivel());
 
         // agora vamos produzir mais um tuite daquele usuário
@@ -163,17 +163,18 @@ public class TuiterLiteTest {
 
         // verifique a promoção ao nível seguinte
         assertEquals("O usuário deve ser promovido automaticamente a SENIOR quando atinge a marca de " +
-                Usuario.MIN_TUITES_SENIOR + " tuítes",
+                NivelUsuario.SENIOR.getMinTuites() + " tuítes",
                 NivelUsuario.SENIOR, usuario.getNivel());
 
         // vamos agora passá-lo para o próximo nível
-        for (int i = 1; i <= Usuario.MIN_TUITES_NINJA - Usuario.MIN_TUITES_SENIOR; i++) {
+        for (int i = 1; i <= NivelUsuario.NINJA.getMinTuites() -
+                NivelUsuario.SENIOR.getMinTuites(); i++) {
             tuiterLite.tuitarAlgo(usuario, "Para o alto e avante!");
         }
 
         // verifique a promoção ao nível seguinte
         assertEquals("O usuário deve ser promovido automaticamente a NINJA quando atinge a marca de " +
-                Usuario.MIN_TUITES_NINJA + " tuítes",
+                NivelUsuario.NINJA.getMinTuites() + " tuítes",
                 NivelUsuario.NINJA, usuario.getNivel());
     }
 
