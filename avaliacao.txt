@@ -1,0 +1,22 @@
+Avaliação do curso e Auto-avaliação:
+
+Me enviem um email, naturalmente com assunto "[Comp2_2020_PLE] Avaliação", incluindo:
+
+1) Uma lista contendo os trabalhos enviados dentro do prazo;
+
+2) Uma lista contendo os trabalhos enviados fora do prazo;
+
+3) Uma descrição de dificuldades que você possa ter tido ao longo do curso;
+
+4) Uma avaliação do curso (tanto do formato quanto do conteúdo),
+   dizendo tudo que vc achar relevante.
+
+5) Uma AUTO-avaliação da sua participação.
+   - Como foi sua assiduidade?
+   - Você foi capaz de se dedicar às aulas e trabalhos?
+   - Conseguiu ler o material de apoio?
+   - Precisou recorrer às notas de aula (e código disponibilizado no GitHub)
+     para ver algo que foi perdido, ou lembrar de algo?
+   - Se você fosse se dar uma nota (de 0 a 10), que nota seria essa?
+
+
